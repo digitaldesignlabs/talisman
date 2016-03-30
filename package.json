@@ -2,8 +2,11 @@
   "name": "talisman",
   "version": "0.1.0",
   "description": "A streaming promise-aware templating engine for Node.js.",
-  "main": "app.js",
-  "author": "David Hignett",
+  "bugs": "https://github.com/digitaldesignlabs/talisman/issues",
+  "repository": "digitaldesignlabs/talisman",
+  "main": "./lib/talisman.js",
+  "author": "Digital Design Labs",
+  "contributors": ["David Hignett"],
   "license": "MIT",
   "scripts": {
     "test": "./node_modules/nodeunit/bin/nodeunit ./test"

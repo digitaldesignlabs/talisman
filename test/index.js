@@ -5,7 +5,7 @@
 const dom = require("cheerio");
 const escapeHtml = require("escape-html");
 // Expose the implementation methods by calling the testing() method.
-const template = require("../talisman").testMode();
+const template = require("../lib/talisman").testMode();
 const path = require("path");
 const stream = require("stream");
 
