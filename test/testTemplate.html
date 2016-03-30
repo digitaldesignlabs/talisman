@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>{title}</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" charset="utf-8">
+</head>
+
+<body>
+    <div class="container">
+
+        <div class="col-sm-12">
+            <h1 class="text-center">Talisman Page</h1>
+
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h4>Test Description goes here</h4>
+                </div>
+                <div class="panel-body">
+                    Result goes here
+                </div>
+            </div>
+
+            <hr>
+
+            <h2>Test simple variable assignment</h2>
+
+            <div class="col-sm-6 col-xs-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4>String Variable</h4>
+                    </div>
+                    <div class="panel-body test" id="testVars1">
+                        {templateTestString1}
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xs-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4>Number Variable</h4>
+                    </div>
+                    <div class="panel-body test" id="testVars2">
+                        {templateTestNumber1}
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xs-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4>Array Variable</h4>
+                    </div>
+                    <div class="panel-body test" id="testVars3">
+                        {templateTestArray1}
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xs-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4>Object Variable</h4>
+                    </div>
+                    <div class="panel-body test" id="testVars4">
+                        {templateTestObject1}
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xs-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4>Promise Variable</h4>
+                    </div>
+                    <div class="panel-body test" id="testVars5">
+                        {templateTestPromise1}
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xs-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4>Readable Stream Variable</h4>
+                    </div>
+                    <div class="panel-body test" id="testVars6">
+                        {templateTestReadableStream1}
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xs-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4>Duplex Stream Variable</h4>
+                    </div>
+                    <div class="panel-body test" id="testVars7">
+                        {templateTestDuplexStream1}
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xs-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4>Transform Stream Variable</h4>
+                    </div>
+                    <div class="panel-body test" id="testVars8">
+                        {templateTestTransformStream1}
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xs-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4>Function Variable</h4>
+                    </div>
+                    <div class="panel-body test" id="testVars9">
+                        {templateTestFunction1}
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xs-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4>Undefined Variable</h4>
+                    </div>
+                    <div class="panel-body test" id="testVars10">
+                        {templateTestUndefined1}&nbsp;
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12">
+            <hr>
+            <h2>Tag Features</h2> {#escapedBlock}
+            <div class="col-sm-6 col-xs-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4>Visible Tags</h4>
+                    </div>
+                    <div class="panel-body test" id="testTags1">
+                        {templateTestUndefined1}
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xs-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4>Template Comments</h4>
+                    </div>
+                    <div class="panel-body test" id="testTags2">
+                        {/* This is a multi-line template comment But it has a
+                            {{commentTag}} It should not be visible at all */}&nbsp;
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xs-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4>This is some <strong>unescaped</strong> HTML</h4>
+                    </div>
+                    <div class="panel-body test" id="testTags3">
+                        {{templateTestHtml1}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xs-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4>This is some escaped HTML</h4>
+                    </div>
+                    <div class="panel-body test" id="testTags4">
+                        {templateTestHtml1}
+                    </div>
+                </div>
+            </div>
+            {/escapedBlock}
+        </div>
+
+        <div class="col-sm-12">
+            <hr>
+            <h2>Block Features</h2>
+            <div class="col-sm-6 col-xs-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4>Static Blocks</h4>
+                    </div>
+                    <div class="panel-body test" id="testBlocks1">
+                        {#staticBlock}
+                        <span>This is a static block with no variables associated with it.</span>
+                        {/staticBlock}
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xs-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4>Removed Block</h4>
+                    </div>
+                    <div class="panel-body test" id="testBlocks2">
+                        {#removedBlock}
+                        <span>This block should have been removed</span>
+                        {/removedBlock}&nbsp;
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xs-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4>Blocks containing other stuff</h4>
+                    </div>
+                    <div class="panel-body test" id="testBlocks3">
+                        {#profileBlock}
+                        <ul>
+                            <li>Name: {name}</li>
+                            <li>Age: {age}</li>
+                            <li>Email: <span id='profileEmail'>{email}</span></li>
+                        </ul>
+                        {/profileBlock}
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xs-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4>Iterable blocks</h4>
+                    </div>
+                    <div class="panel-body test" id="testBlocks4">
+                        <table class="table">
+                            <tr>
+                                <th>Name</th>
+                                <th>Age</th>
+                                <th>Email</th>
+                            </tr>
+                            {#contactsBlock}
+                            <tr class="iteratedRow">
+                                <td>{name}</td>
+                                <td>{age}</td>
+                                <td>{email}</td>
+                            </tr>
+                            {/contactsBlock}
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xs-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4>Deeplinked variables</h4>
+                    </div>
+                    <div class="panel-body test" id="testBlocks5">
+                        {contactsBlock.1.email}
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xs-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4>Deeperlinked variables</h4>
+                    </div>
+                    <div class="panel-body test" id="testBlocks6">
+                        {deeplinkTest.level1.level2.level3}
+                    </div>
+                </div>
+            </div>
+        </div>
+</body>
+
+</html>

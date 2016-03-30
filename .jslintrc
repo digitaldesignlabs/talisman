@@ -1,0 +1,6 @@
+{
+    "maxlen": 120,
+    "node": true,
+    "es6": true,
+    "edition": "es6"
+}

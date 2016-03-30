@@ -1,0 +1,19 @@
+{
+  "name": "talisman",
+  "version": "0.1.0",
+  "description": "A streaming promise-aware templating engine for Node.js.",
+  "main": "app.js",
+  "author": "David Hignett",
+  "license": "MIT",
+  "scripts": {
+    "test": "./node_modules/nodeunit/bin/nodeunit ./test"
+  },
+  "dependencies": {
+    "es6-promisify": "^3.0.0",
+    "escape-html": "^1.0.3"
+  },
+  "devDependencies": {
+    "cheerio": "^0.20.0",
+    "nodeunit": "^0.9.1"
+  }
+}
