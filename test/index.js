@@ -11,11 +11,13 @@ const stream = require("stream");
 const template = require("../lib/talisman").testMode(); //testMode() exposes private implementation methods
 const priv = template.testFunctions; // easier access to private implementation methods
 
+
+console.log(template)
 const htmlPromise = readFile(path.join(__dirname, "testTemplate.html"), 'utf8');
 const randomPromise =  readFile(path.join(__dirname, "random.html"), 'utf8');
 
 function contentParsingTest(test) {
-    test.expect(6);
+    test.expect(12);
 
     const testContent = function (inputString, regexType) {
         // Parse the file for blocks
@@ -57,7 +59,16 @@ function contentParsingTest(test) {
         testContent(templateString, 'tagRegex');
     }).catch(function (err) {
         console.error(err);
-    }).then(function () {
+    });
+
+    randomPromise.then(function (templateString) {
+        testContent(templateString, 'blockRegex');
+        testContent(templateString, 'tagRegex');
+    }).catch(function (err) {
+        console.error(err);
+    });
+
+    Promise.all([htmlPromise, randomPromise]).then(function () {
         test.done();
     });
 }
@@ -91,7 +102,7 @@ function processContentArray(test) {
 
 function templateInterfaceTest(test) {
     // Establish that the correct methods are exposed in the API
-    const expectedTemplateMethods = ["load", "debug", "stripUndefinedTags"];
+    const expectedTemplateMethods = ["load", "debug", "showUndefined"];
 
     test.expect(expectedTemplateMethods.length);
 
@@ -124,7 +135,7 @@ const testFile = path.join(__dirname, "testTemplate.html");
 
 function createTemplateTest(test) {
     // Establish that the correct methods are exposed within the context of the template
-    const expectedContextMethods = ["load", "error", "set", "stripTagsInBlock", "remove", "restore", "addMask", "render"];
+    const expectedContextMethods = ["load", "error", "set", "showUndefinedBlock", "remove", "restore", "addMask", "render"];
 
     // Set template path to current directory so that we can correctly retrieve
     const testTemplate = template.load(testFile);
@@ -236,7 +247,7 @@ function testPage(test) {
 
     testTemplate.set(testHtml1, "templateTestHtml1");
 
-    testTemplate.stripTagsInBlock("escapedBlock");
+    testTemplate.showUndefinedBlock("escapedBlock");
 
     testTemplate.remove("removedBlock");
 
