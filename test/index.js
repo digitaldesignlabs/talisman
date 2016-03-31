@@ -54,7 +54,7 @@ const stream = require("stream");
 
 function testTemplateInterface(test) {
     // Establish that the correct methods are exposed in the API
-    const expectedTemplateMethods = ["load", "debug", "escapeTags"];
+    const expectedTemplateMethods = ["load", "setDebug", "escapeTags"];
 
     test.expect(expectedTemplateMethods.length);
 
@@ -64,7 +64,7 @@ function testTemplateInterface(test) {
     test.done();
 }
 
-template.debug(false);
+template.setDebug(false);
 function createInvalidTemplate(test) {
     const invalidTemplate = template.load('invalid');
 
