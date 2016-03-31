@@ -8,13 +8,14 @@ const promisify = require("es6-promisify");
 const readFile = promisify(require('fs').readFile);
 const path = require("path");
 const stream = require("stream");
+
 const template = require("../lib/talisman").testMode(); //testMode() exposes private implementation methods
 const priv = template.testFunctions; // easier access to private implementation methods
 
-
-console.log(template)
+// Read the template file
 const htmlPromise = readFile(path.join(__dirname, "testTemplate.html"), 'utf8');
-const randomPromise =  readFile(path.join(__dirname, "random.html"), 'utf8');
+// read a file full of random strings
+const randomPromise = readFile(path.join(__dirname, "random.html"), 'utf8');
 
 function contentParsingTest(test) {
     test.expect(12);
@@ -52,15 +53,15 @@ function contentParsingTest(test) {
         });
         test.ok(contentTypesOk, "Array contains only strings and objects.");
         test.ok(contentObjectsOk, "Objects in the array are correctly formatted.");
-    }
-
+    };
+    // Test the function on the valid html template
     htmlPromise.then(function (templateString) {
         testContent(templateString, 'blockRegex');
         testContent(templateString, 'tagRegex');
     }).catch(function (err) {
         console.error(err);
     });
-
+    // Test the function on a file full of random strings.
     randomPromise.then(function (templateString) {
         testContent(templateString, 'blockRegex');
         testContent(templateString, 'tagRegex');
@@ -74,35 +75,14 @@ function contentParsingTest(test) {
 }
 
 
-function parseTemplate(test) {
-    test.expect(1);
-
-    const contentArray = template.test.parseForTags(testTemplateString, template.test.blockRegex, [])
-        .map(function (element) {
-            return template.test.parseForTags(element, template.test.tagRegex, []);
-        });
-    test.ok(Array.isArray(contentArray), "Result is an array");
-    parsedTemplate = contentArray;
-    test.done();
-}
-
-function processContentArray(test) {
-    test.expect(1);
-    const testVariables = {
-        title: "Test Template",
-        testVariable: 1234,
-        testBlockLiteral3: {
-            testBlockVariable: "Test Block Variable"
-        }
-    };
-    template.test.prepareTemplate(parsedTemplate, testVariables);
-    test.ok(true);
-    test.done();
-}
 
 function templateInterfaceTest(test) {
     // Establish that the correct methods are exposed in the API
-    const expectedTemplateMethods = ["load", "debug", "showUndefined"];
+    const expectedTemplateMethods = [
+        "load",
+        "debug",
+        "showUndefined"
+    ];
 
     test.expect(expectedTemplateMethods.length);
 
@@ -133,32 +113,34 @@ function invalidTemplateTest(test) {
 const testFile = path.join(__dirname, "testTemplate.html");
 
 
-function createTemplateTest(test) {
+function validTemplateTest(test) {
     // Establish that the correct methods are exposed within the context of the template
-    const expectedContextMethods = ["load", "error", "set", "showUndefinedBlock", "remove", "restore", "addMask", "render"];
+    const expectedContextMethods = [
+        "load",
+        "error",
+        "set",
+        "showUndefinedBlock",
+        "remove",
+        "restore",
+        "addMask",
+        "render",
+        "test"
+    ];
 
     // Set template path to current directory so that we can correctly retrieve
     const testTemplate = template.load(testFile);
 
-    test.expect(expectedContextMethods.length);
+    test.expect(expectedContextMethods.length + 1);
     expectedContextMethods.forEach(function (method) {
         test.ok(testTemplate[method]);
     });
-    test.done();
-}
-
-function templateRenderTest(test) {
     let htmlResult = '';
-
-    const testTemplate = template.load(testFile);
-
     testTemplate.render()
         .on('data', function (chunk) {
             htmlResult += chunk.toString();
         })
         .on('end', function () {
             const $ = dom.load(htmlResult);
-            test.expect(1);
             test.ok($('html').html());
             test.done();
         });
@@ -167,7 +149,6 @@ function templateRenderTest(test) {
 function testPage(test) {
 
     const testTemplate = template.load(testFile);
-
 
     const testString1 = "Test String";
     const testNumber1 = 7790.25;
@@ -206,51 +187,83 @@ function testPage(test) {
     };
 
 
+
+    /**
+    * set() function testing
+    */
+
     const setErrors = [];
 
-    const tryType = function (arg1, arg2) {
+    const trySetWithType = function (arg1, arg2) {
         try {
             testTemplate.set(arg1, arg2);
         } catch (ignore) {
             setErrors.push([typeof arg1, arg2]);
         }
     };
+    // try the set function with no parameters
+    trySetWithType();
     // Test all variable types by trying to assign using one argument. Most should fail
-    tryType(undefined);  // should fail
-    tryType(null);  // should fail
-    tryType(testString1); // should fail
-    tryType(testNumber1); // should fail
-    tryType(testArray1); // should fail
-    tryType(testPromise1); // should fail
-    tryType(testReadableStream1); // should fail
-    tryType(testDuplexStream1); // should fail
-    tryType(testTransformStream1); // should fail
-    tryType(testFunction1); // should fail
-    tryType(testObject1); // key:value pair object should succeed.
+    trySetWithType(undefined);  // should fail
+    trySetWithType(null);  // should fail
+    trySetWithType(testString1); // should fail
+    trySetWithType(testNumber1); // should fail
+    trySetWithType(testArray1); // should fail
+    trySetWithType(testPromise1); // should fail
+    trySetWithType(testReadableStream1); // should fail
+    trySetWithType(testDuplexStream1); // should fail
+    trySetWithType(testTransformStream1); // should fail
+    trySetWithType(testFunction1); // should fail
+    trySetWithType(testObject1); // key:value pair object should succeed.
 
     // Test all variable types by trying to assign using two arguments. All should succeed.
-    tryType(undefined, "templateTestUndefined1");
-    tryType(testString1, "templateTestString1");
-    tryType(testNumber1, "templateTestNumber1");
-    tryType(testArray1, "templateTestArray1");
-    tryType(testObject1, "templateTestObject1");
-    tryType(testPromise1, "templateTestPromise1");
-    tryType(testReadableStream1, "templateTestReadableStream1");
-    tryType(testDuplexStream1, "templateTestDuplexStream1");
-    tryType(testTransformStream1, "templateTestTransformStream1");
-    tryType(testFunction1, "templateTestFunction1");
+    trySetWithType(undefined, "templateTestUndefined1");
+    trySetWithType(testString1, "templateTestString1");
+    trySetWithType(testNumber1, "templateTestNumber1");
+    trySetWithType(testArray1, "templateTestArray1");
+    trySetWithType(testObject1, "templateTestObject1");
+    trySetWithType(testPromise1, "templateTestPromise1");
+    trySetWithType(testReadableStream1, "templateTestReadableStream1");
+    trySetWithType(testDuplexStream1, "templateTestDuplexStream1");
+    trySetWithType(testTransformStream1, "templateTestTransformStream1");
+    trySetWithType(testFunction1, "templateTestFunction1");
 
+    /**
+    * showUndefinedBlock() function testing
+    */
+    const showUndefinedBlockErrors = [];
+
+    const tryShowWithType = function (arg1, arg2) {
+        try {
+            testTemplate.showUndefinedBlock(arg1, arg2);
+        } catch (ignore) {
+            showUndefinedBlockErrors.push([typeof arg1, arg2]);
+        }
+    };
+    // Attempt to use with all variable types
+    tryShowWithType();
+    tryShowWithType(undefined);
+    tryShowWithType(null);
+    tryShowWithType(testNumber1);
+    tryShowWithType(testArray1);
+    tryShowWithType(testPromise1);
+    tryShowWithType(testReadableStream1);
+    tryShowWithType(testDuplexStream1);
+    tryShowWithType(testTransformStream1);
+    tryShowWithType(testFunction1);
+    tryShowWithType(testObject1);
+    tryShowWithType(testString1); // The only one that should work
+    tryShowWithType(testString1, false);
+
+    console.log(testTemplate.test)
+
+    testTemplate.showUndefinedBlock("escapedBlock");
     // Broken into multiple statements because JSLint doesn't like ES6 multi-line template strings
     let testHtml1 = `<marquee behavior="scroll" direction="left" `;
     testHtml1 += `style="color:#F00;background-color:#00F;font-size:30px;">`;
     testHtml1 += `This is some HTML</marquee>`;
-
     testTemplate.set(testHtml1, "templateTestHtml1");
-
-    testTemplate.showUndefinedBlock("escapedBlock");
-
     testTemplate.remove("removedBlock");
-
     const contactList = [
         {
             name: 'Bruce',
@@ -268,10 +281,7 @@ function testPage(test) {
             email: 'steve@talismanTemplate.com'
         }
     ];
-
-
     testTemplate.set(contactList[0], 'profileBlock');
-
     testTemplate.set(contactList, 'contactsBlock');
 
     const deeplink1 = {
@@ -296,8 +306,9 @@ function testPage(test) {
                 // Expect as many tests as there are elements with the class 'test'
                 const elementCount = $('.test').get().length;
 
-                test.expect(elementCount + 1);
-                test.ok(setErrors.length === 10, "bad set() functions with only one argument should throw an error");
+                test.expect(elementCount + 2);
+                test.ok(setErrors.length === 11, "bad set() functions should throw an error");
+                test.ok(showUndefinedBlockErrors.length === 11, "bad showUndefinedBlock() should throw an error");
 
                 test.ok($('#testVars1').text().trim() === testString1, "Renders a string");
                 test.ok($('#testVars2').text().trim() === testNumber1.toString(), "Renders a number");
@@ -336,14 +347,10 @@ function testPage(test) {
         return testTemplate;
     }
 }
-
-const tests = {
+module.exports = {
     contentParsingTest,
     templateInterfaceTest,
     invalidTemplateTest,
-    createTemplateTest,
-    templateRenderTest,
+    validTemplateTest,
     testPage
 };
-
-module.exports = tests;
