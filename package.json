@@ -6,13 +6,15 @@
   "repository": "digitaldesignlabs/talisman",
   "main": "./lib/talisman.js",
   "author": "Digital Design Labs",
-  "contributors": ["David Hignett"],
+  "contributors": [
+    "David Hignett"
+  ],
   "license": "MIT",
   "scripts": {
     "test": "./node_modules/nodeunit/bin/nodeunit ./test"
   },
   "dependencies": {
-    "es6-promisify": "^3.0.0",
+    "es6-promisify": "^4.0.0",
     "escape-html": "^1.0.3"
   },
   "devDependencies": {
