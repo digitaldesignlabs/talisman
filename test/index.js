@@ -163,13 +163,17 @@ const testObjectSize = Object.keys(testVariables.testObject1).length;
 testVariables.testReadableStream1 = new stream.Readable();
 testVariables.testDuplexStream1 = new stream.Duplex();
 testVariables.testTransformStream1 = new stream.Transform();
+testVariables.testWritableStream1 = new stream.Writable();
 testVariables.testPromise1 = new Promise(function (resolve) {
     setTimeout(resolve, 500, returnStrings.testPromise1Text);
 });
 testVariables.testFunction1 = function () {
     return "Function Returned";
 };
+testVariables.testBooleanTrue = true;
+testVariables.testBooleanFalse = false;
 const numberOfTestVariables = Object.keys(testVariables).length;
+
 // Set up _read properties on the streams
 const dummyReadMethod = function () {
     // It is necessary to define a _read function for the stream, however in our implementation we are pushing
@@ -221,7 +225,7 @@ const tryAllVariableTypes2 = function (func, testInput) {
             const variable2 = testInput[key2];
             try {
                 func(variable1, variable2);
-                successes.push([typeof variable1, typeof variable2]); // This line shouldn't be reached if there is an exception
+                successes.push([typeof variable1, typeof variable2]);
             } catch (err) {
                 errors.push([typeof variable1, typeof variable2]);
             }
@@ -285,7 +289,6 @@ function testTemplateSet2(test) {
     const testTemplate = template.create(testFile);
     const results = tryAllVariableTypes2(testTemplate.set, testVariables);
 
-
     const numberOfExpectedSuccesses = results.total / Object.keys(testVariables).length;
     const numberOfExpectedErrors = results.total - numberOfExpectedSuccesses;
     test.expect(3);
@@ -295,8 +298,91 @@ function testTemplateSet2(test) {
     test.strictEqual(Object.keys(testTemplate.test.vars).length, 1, 'only one valid variable should have been created');
     test.done();
 }
+function testTemplateShowUndefinedBlock1(test) {
+    const testTemplate = template.create(testFile);
+    const results = tryAllVariableTypes1(testTemplate.showUndefinedBlock, testVariables);
 
+    const numberOfExpectedSuccesses = 1;
+    const numberOfExpectedErrors = results.total - numberOfExpectedSuccesses;
+    test.expect(3);
+    test.strictEqual(results.errors.length, numberOfExpectedErrors,
+        "Errors should be thrown if the second parameter is not a string");
+    test.strictEqual(results.successes.length, numberOfExpectedSuccesses);
+    test.strictEqual(Object.keys(testTemplate.test.showTags).length, 1, 'onev alid showTags block should be created');
+    test.done();
+}
 
+function testTemplateShowUndefinedBlock2(test) {
+    const testTemplate = template.create(testFile);
+    const results = tryAllVariableTypes2(testTemplate.showUndefinedBlock, testVariables);
+
+    const numberOfExpectedSuccesses = Object.keys(testVariables).length;
+    const numberOfExpectedErrors = results.total - numberOfExpectedSuccesses;
+    test.expect(3);
+    test.strictEqual(results.errors.length, numberOfExpectedErrors,
+        "Errors should be thrown if the first parameter is not a string");
+    test.strictEqual(results.successes.length, numberOfExpectedSuccesses);
+    test.strictEqual(Object.keys(testTemplate.test.showTags).length, 1, 'one valid showTags block should be created');
+    test.done();
+}
+
+function testTemplateRemove(test) {
+    const testTemplate = template.create(testFile);
+    const results = tryAllVariableTypes1(testTemplate.remove, testVariables);
+
+    const numberOfExpectedSuccesses = 1;
+    const numberOfExpectedErrors = results.total - numberOfExpectedSuccesses;
+    test.expect(4);
+    test.strictEqual(results.errors.length, numberOfExpectedErrors,
+        "Errors should be thrown if the parameter is not a string");
+    test.strictEqual(results.successes.length, numberOfExpectedSuccesses);
+    test.strictEqual(Object.keys(testTemplate.test.hide).length, 1, 'one valid hidden block should be created');
+    test.strictEqual(testTemplate.test.hide[results.successes[0]], true, 'The block should be true');
+    test.done();
+}
+
+function testTemplateRestore(test) {
+    const testTemplate = template.create(testFile);
+    const results = tryAllVariableTypes1(testTemplate.restore, testVariables);
+
+    const numberOfExpectedSuccesses = 1;
+    const numberOfExpectedErrors = results.total - numberOfExpectedSuccesses;
+    test.expect(4);
+    test.strictEqual(results.errors.length, numberOfExpectedErrors,
+        "Errors should be thrown if the parameter is not a string");
+    test.strictEqual(results.successes.length, numberOfExpectedSuccesses);
+    test.strictEqual(Object.keys(testTemplate.test.hide).length, 1, 'one valid hidden block should be created');
+    test.strictEqual(testTemplate.test.hide[results.successes[0]], false, 'The block should be false');
+    test.done();
+}
+
+function testTemplateAddMask1(test) {
+    const testTemplate = template.create(testFile);
+    const results = tryAllVariableTypes1(testTemplate.addMask, testVariables);
+
+    const numberOfExpectedSuccesses = 0;
+    const numberOfExpectedErrors = results.total - numberOfExpectedSuccesses;
+    test.expect(3);
+    test.strictEqual(results.errors.length, numberOfExpectedErrors,
+        "Errors should be thrown if there are not two parameters");
+    test.strictEqual(results.successes.length, numberOfExpectedSuccesses);
+    test.strictEqual(Object.keys(testTemplate.test.masks).length, 0, 'None of these tests should have succeeded');
+    test.done();
+}
+
+function testTemplateAddMask2(test) {
+    const testTemplate = template.create(testFile);
+    const results = tryAllVariableTypes2(testTemplate.addMask, testVariables);
+
+    const numberOfExpectedSuccesses = 1;
+    const numberOfExpectedErrors = results.total - numberOfExpectedSuccesses;
+    test.expect(3);
+    test.strictEqual(results.errors.length, numberOfExpectedErrors,
+        "Only a string and a function are acceptable parameters for this function");
+    test.strictEqual(results.successes.length, numberOfExpectedSuccesses);
+    test.strictEqual(Object.keys(testTemplate.test.masks).length, 1, 'Only one test should have created a mask');
+    test.done();
+}
 
 
 function testPageRender(test) {
@@ -315,85 +401,6 @@ function testPageRender(test) {
     testTemplate.set(testVariables.testFunction1, "templateTestFunction1");
     const templateVarsObject = Object.keys(testTemplate.test.vars);
 
-    /**
-    * showUndefinedBlock() function testing
-    */
-    const showUndefinedBlockErrors = [];
-    const tryShowWithType = function (arg1, arg2) {
-        try {
-            testTemplate.showUndefinedBlock(arg1, arg2);
-        } catch (ignore) {
-            showUndefinedBlockErrors.push([typeof arg1, arg2]);
-        }
-    };
-    // Attempt to use with all variable types
-    tryShowWithType();
-    tryShowWithType(undefined);
-    tryShowWithType(null);
-    tryShowWithType(testNumber1);
-    tryShowWithType(testArray1);
-    tryShowWithType(testPromise1);
-    tryShowWithType(testReadableStream1);
-    tryShowWithType(testDuplexStream1);
-    tryShowWithType(testTransformStream1);
-    tryShowWithType(testFunction1);
-    tryShowWithType(testObject1);
-    tryShowWithType(testString1); // The only one that should work
-    tryShowWithType(testString1, false);
-    const templateShowTagsObject = Object.keys(testTemplate.test.showTags);
-
-    /**
-    * remove() function testing
-    */
-    const removeErrors = [];
-    const tryRemoveWithType = function (arg1) {
-        try {
-            testTemplate.remove(arg1);
-        } catch (ignore) {
-            removeErrors.push(typeof arg1);
-        }
-    };
-    tryRemoveWithType();
-    tryRemoveWithType(undefined);
-    tryRemoveWithType(null);
-    tryRemoveWithType(testNumber1);
-    tryRemoveWithType(testArray1);
-    tryRemoveWithType(testPromise1);
-    tryRemoveWithType(testReadableStream1);
-    tryRemoveWithType(testDuplexStream1);
-    tryRemoveWithType(testTransformStream1);
-    tryRemoveWithType(testFunction1);
-    tryRemoveWithType(testObject1);
-    tryRemoveWithType(testString1); // The only one that should work
-    const templateHideObject1 = Object.keys(testTemplate.test.hide);
-    const templateHidenBlock1 = testTemplate.test.hide[templateHideObject1[0]];
-
-    /**
-    * retstore() function testing
-    */
-    const restoreErrors = [];
-    const tryRestoreWithType = function (arg1) {
-        try {
-            testTemplate.restore(arg1);
-        } catch (ignore) {
-            restoreErrors.push(typeof arg1);
-        }
-    };
-    tryRestoreWithType();
-    tryRestoreWithType(undefined);
-    tryRestoreWithType(null);
-    tryRestoreWithType(testNumber1);
-    tryRestoreWithType(testArray1);
-    tryRestoreWithType(testPromise1);
-    tryRestoreWithType(testReadableStream1);
-    tryRestoreWithType(testDuplexStream1);
-    tryRestoreWithType(testTransformStream1);
-    tryRestoreWithType(testFunction1);
-    tryRestoreWithType(testObject1);
-    tryRestoreWithType(testString1); // The only one that should work
-    const templateHideObject2 = Object.keys(testTemplate.test.hide);
-    const templateHidenBlock2 = testTemplate.test.hide[templateHideObject2[0]];
-
     // Visible template test values and setup
 
     testTemplate.showUndefinedBlock("escapedBlock");
@@ -408,17 +415,17 @@ function testPageRender(test) {
         {
             name: 'Bruce',
             age: 45,
-            email: 'bruce@talismanTemplate.com'
+            email: 'bruce@talismanjs.com'
         },
         {
             name: 'Jane',
             age: 31,
-            email: 'jane@talismanTemplate.com'
+            email: 'jane@talismanjs.com'
         },
         {
             name: 'Steve',
             age: 22,
-            email: 'steve@talismanTemplate.com'
+            email: 'steve@talismanjs.com'
         }
     ];
     testTemplate.set(contactList[0], 'profileBlock');
@@ -505,6 +512,12 @@ module.exports = {
     testTemplateLoad1,
     testTemplateLoad2,
     testTemplateSet1,
-    testTemplateSet2
+    testTemplateSet2,
+    testTemplateShowUndefinedBlock1,
+    testTemplateShowUndefinedBlock2,
+    testTemplateRemove,
+    testTemplateRestore,
+    testTemplateAddMask1,
+    testTemplateAddMask2
     //testPageRender
 };
