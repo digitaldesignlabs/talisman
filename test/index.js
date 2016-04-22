@@ -17,6 +17,10 @@ const htmlPromise = readFile(path.join(__dirname, "testTemplate.html"), 'utf8');
 // read a file full of random strings
 const randomPromise = readFile(path.join(__dirname, "random.html"), 'utf8');
 
+process.on('unhandledRejection', function (err) {
+    console.log('Unhandled Rejection: ' + err.stack || err);
+});
+
 function contentParsingTest(test) {
     test.expect(12);
 
@@ -73,8 +77,6 @@ function contentParsingTest(test) {
         test.done();
     });
 }
-
-
 
 function templateInterfaceTest(test) {
     // Establish that the correct methods are exposed in the API
@@ -143,6 +145,62 @@ function testCreateValidTemplate(test) {
             const $ = dom.load(htmlResult);
             test.ok($('html').html());
             test.done();
+        });
+}
+
+function arrayToStreamTest(test) {
+    test.expect(0);
+    const sevenPromise = new Promise(function (resolve) {
+        setTimeout(function () {
+            resolve("Promise containing 'Seven'");
+        }, 0);
+
+    });
+
+    const waitPromise = new Promise(function (resolve) {
+        setTimeout(function () {
+            resolve("w8");
+        }, 3000);
+
+    });
+    const readableMessage = "This text arrived via a Readable Stream.";
+    const testReadableStream1 = new stream.Readable();
+    testReadableStream1._read = function () {
+        // It is necessary to define a _read function for the stream, however in our implementation we are pushing
+        // items onto the stream directly so this function is not needed. If this function is not defined then you will
+        // be spammed with 'not implemented' errors.
+        return undefined;
+    };
+
+    testReadableStream1.push(readableMessage);
+    testReadableStream1.push(null);
+
+    const threeFunction = function () {
+        return 3;
+    };
+    const testArray = [
+        "0",
+        "1",
+        2,
+        threeFunction,
+        ["4a", undefined, "4c", waitPromise],
+        testReadableStream1,
+        6,
+        sevenPromise,
+        null,
+        waitPromise,
+        "9"
+    ];
+    let streamOutput = '';
+    priv.arrayToStream(testArray)
+        .on('data', function (chunk) {
+            console.log(chunk.toString());
+        })
+        .on('end', function () {
+            test.done();
+        })
+        .on('error', function (err) {
+            console.error(err);
         });
 }
 
@@ -504,7 +562,13 @@ function testPageRender(test) {
         return testTemplate;
     }
 }
+
+
+
+
+
 module.exports = {
+    arrayToStreamTest,
     contentParsingTest,
     templateInterfaceTest,
     testCreateInvalidTemplate,
