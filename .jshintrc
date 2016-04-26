@@ -1,0 +1,8 @@
+{
+    "maxlen": 120,
+    "node": true,
+    "esversion": 6,
+    "camelcase": true,
+    "quotmark": "double",
+    "varstmt": true
+}
