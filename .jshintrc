@@ -4,5 +4,6 @@
     "esversion": 6,
     "camelcase": true,
     "quotmark": "double",
-    "varstmt": true
+    "varstmt": true,
+    "unused": "vars"
 }
