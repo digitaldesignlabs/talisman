@@ -15,10 +15,9 @@
   },
   "dependencies": {
     "es6-promisify": "^4.0.0",
-    "escape-html": "^1.0.3"
+    "html-escape": "^2.0.0"
   },
   "devDependencies": {
-    "cheerio": "^0.20.0",
     "nodeunit": "^0.9.1"
   }
 }

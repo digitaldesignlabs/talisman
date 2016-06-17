@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>{title}</title>
+    </head>
+
+    <body>
+        <h1>{pageTitle}</h1>
+
+        {{CDATA[
+        <h1>{pageTitle}</h1>
+        ]}}
+
+        {/*
+        <h1>{pageTitle}</h1>
+        */}
+
+        {#myBlock}
+        <p>This is my page named "{pageTitle}"</p>
+        <p>This is my backward page named "{pageTitle|reverse|caps}"</p>
+        {/myBlock}
+
+
+        {#blockLevelOne}
+        <ul>
+            {#blockLevelTwo}
+            <li>{talismanRowNum|plusplus}. {pageTitle|reverse}: {{placeholder|caps}}</li>
+            {/blockLevelTwo}
+        </ul>
+        {/blockLevelOne}
+
+        {placeholder}
+    </body>
+</html>
