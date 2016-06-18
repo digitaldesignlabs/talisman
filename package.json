@@ -1,23 +1,24 @@
 {
   "name": "talisman",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A streaming promise-aware templating engine for Node.js.",
   "bugs": "https://github.com/digitaldesignlabs/talisman/issues",
   "repository": "digitaldesignlabs/talisman",
   "main": "./lib/talisman.js",
   "author": "Digital Design Labs",
   "contributors": [
-    "David Hignett"
+    "David Hignett",
+    "Mike Hall"
   ],
   "license": "MIT",
   "scripts": {
-    "test": "./node_modules/nodeunit/bin/nodeunit ./test"
+    "demo": "node demo --"
   },
   "dependencies": {
     "es6-promisify": "^4.0.0",
     "html-escape": "^2.0.0"
   },
   "devDependencies": {
-    "nodeunit": "^0.9.1"
+    "node-fetch": "^1.5.3"
   }
 }

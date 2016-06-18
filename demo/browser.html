@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>{title}</title>
+    </head>
+
+    <body>
+        <div>
+            <p>
+                Talisman is a promise-aware streaming templating engine intended to reduce the time it takes for the user
+                to see the page load. The page starts streaming content to the user while the server is still in the process
+                of retrieving content to display. So the pages displays what it can, and then waits for more.
+            </p>
+            <p>
+                Below is a table containing fake data, which should take about 3 seconds to show up:
+            </p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Item Name</th>
+                        <th>Item Price</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {#fakeTablePromise1}
+                    <tr>
+                        <td>{id}</td>
+                        <td>{name}</td>
+                        <td>{price}</td>
+                    </tr>
+                    {/fakeTablePromise1}
+                </tbody>
+            </table>
+            <p>
+                The content above wasn't available on the server when the page initially loaded, that could have
+                been from a database request or something. But normally we would have been looking at a blank screen
+                while waiting for it to turn up.
+            </p>
+            <ul>
+                <li style="background: {templateColor}">{fakeSlowContent1}</li>
+                <li style="background: {templateColor}">{fakeSlowContent2}</li>
+                <li style="background: {templateColor}">{fakeSlowContent3}</li>
+                <li style="background: {templateColor}">{fakeSlowContent4}</li>
+                <li style="background: {templateColor}">{fakeSlowContent5}</li>
+                <li style="background: {templateColor}">{fakeSlowContent6}</li>
+            </ul>
+            <p>
+                And now we carry on rendering static content as normal until we reach the end of the page.
+            </p>
+            <p>
+                Which we have now reached.
+            </p>
+        </div>
+    </body>
+</html>
