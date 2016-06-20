@@ -34,7 +34,9 @@ talisman.create(path.join(__dirname, "/console.html"))
         view.set({streamedContent});
 
         // External files can be loaded into variables as new blocks
-        view.load(path.join(__dirname, "/external.html"), "externalContent");
+        return view.load(path.join(__dirname, "/external.html"), "externalContent");
+
+    }).then(view => {
 
         // Iterators can be promises
         const data = delay(500).then(() => {
