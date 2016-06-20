@@ -47,9 +47,10 @@ A block defines a chunk of text within the template. Blocks can used as loops (b
 // This will output:
 // <h1>Shopping List<h1>
 // <ul>
+// <li>Celery</li>
 // <li>Apples</li>
-// <li>Bananas</li>
-// <li>Grapefruit</li>
+// <li>Walnuts</li>
+// <li>Grapes</li>
 // </ul>
 const template = "<h1>Shopping List</h1>\n<ul>\n"
     + "{#row}<li>{item}</li>\n{/row}"
@@ -87,9 +88,10 @@ Variables can have masks applied to them. These are functions which transform th
 // This will output:
 // <h1>Price List<h1>
 // <ul>
-// <li>Apples: $1.00</li>
-// <li>Bananas: $1.50</li>
-// <li>Grapefruit: $1.25</li>
+// <li>Celery: $1.00</li>
+// <li>Apples: $1.50</li>
+// <li>Walnuts: $1.25</li>
+// <li>Grapes: $0.75</li>
 // </ul>
 const template = "<h1>Price List</h1>\n<ul>\n"
     + "{#row}<li>{item}: {price|format}</li>\n{/row}"
