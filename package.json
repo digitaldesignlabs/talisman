@@ -1,5 +1,5 @@
 {
-  "name": "talisman",
+  "name": "talismanjs",
   "version": "0.2.0",
   "description": "A streaming promise-aware templating engine for Node.js.",
   "bugs": "https://github.com/digitaldesignlabs/talisman/issues",
