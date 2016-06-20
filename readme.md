@@ -41,7 +41,7 @@ talisman.createFromString("Your name is {{name}}.\nThe markup was {name}.").then
 ````
 
 #### Blocks ####
-A block defines a chunk of text within the template. Blocks can used as loops (by assigning iterators to them); as ifs (by removing them when some condition is met) or simply as a way to defining a scope.  A block is inherently none of these; its behaviour depends on how you treat it. Like HTML, blocks may nest, but may not overlap.
+A block defines a chunk of text within the template. Blocks can used as loops (by assigning iterators to them); as ifs (by removing them when some condition is met) or simply as a way of defining a scope.  A block is inherently none of these; its behaviour depends entirely on how you treat it. Like HTML, blocks may nest, but may not overlap.
 
 ```js
 // This will output:
@@ -137,8 +137,8 @@ You can also load partial content from files.
 {bodyContent|makeParagraphs}
 ```
 ```js
-const talisman = require("talismanjs");
 talisman.create("main.html").then(view => {
+    // Second argument tells talisman which variable this content replaces
     return view.load("article.html", "content");
 }).then(view => {
     view.set({pageTitle: "Talisman is awesome!"})
@@ -165,8 +165,21 @@ This would render:
 </html>
 ```
 
-## Simple Demos ##
+## Minification ##
+Minification is awesome. You can minify content from Talisman by piping the content through a transform stream.
 
+```js
+const talisman = require("talismanjs");
+const Minifier = require("minify-html-stream");
+
+talisman.create("main.html").then(view => {
+    view.toStream().pipe(new Minifier()).pipe(process.stdout);
+});
+```
+
+The `minify-html-stream` project currently is really basic and cautious. [You can make it better](https://github.com/digitaldesignlabs/minify-html-stream).
+
+## Simple Demos ##
 ```bash
 git clone https://github.com/digitaldesignlabs/talisman.git
 cd talisman
