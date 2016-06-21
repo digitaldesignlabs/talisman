@@ -17,13 +17,15 @@
   ],
   "license": "MIT",
   "scripts": {
-    "demo": "node demo --"
+    "demo": "node demo --",
+    "test": "node tests"
   },
   "dependencies": {
     "es6-promisify": "^4.0.0",
     "html-escape": "^2.0.0"
   },
   "devDependencies": {
-    "node-fetch": "^1.5.3"
+    "node-fetch": "^1.5.3",
+    "tape": "^4.6.0"
   }
 }
