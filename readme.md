@@ -1,3 +1,5 @@
+[![Travis CI](https://travis-ci.org/digitaldesignlabs/talisman.svg)](https://travis-ci.org/digitaldesignlabs/talisman)
+
 # Talisman #
 Talisman is a logicless streaming templating system and language for Node.js, created by Digital Design Labs.
 
