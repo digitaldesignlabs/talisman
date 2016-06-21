@@ -7,8 +7,8 @@
   "main": "./lib/talisman.js",
   "author": "Digital Design Labs",
   "contributors": [
-    "David Hignett",
-    "Mike Hall"
+    "Mike Hall <mikehall314@gmail.com> (github.com/mikehall314)",
+    "David Hignett <david@hignatious.co.uk> (github.com/hignatious)"
   ],
   "license": "MIT",
   "scripts": {
