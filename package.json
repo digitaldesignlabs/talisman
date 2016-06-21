@@ -5,6 +5,11 @@
   "bugs": "https://github.com/digitaldesignlabs/talisman/issues",
   "repository": "digitaldesignlabs/talisman",
   "main": "./lib/talisman.js",
+  "files": [
+      "./lib/talisman.js",
+      "./lib/Block.js",
+      "./lib/Renderer.js"
+  ],
   "author": "Digital Design Labs",
   "contributors": [
     "Mike Hall <mikehall314@gmail.com> (github.com/mikehall314)",
