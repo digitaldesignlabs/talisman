@@ -1,14 +1,14 @@
 {
   "name": "talismanjs",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "A streaming promise-aware templating engine for Node.js.",
   "bugs": "https://github.com/digitaldesignlabs/talisman/issues",
   "repository": "digitaldesignlabs/talisman",
   "main": "./lib/talisman.js",
   "files": [
-      "./lib/talisman.js",
-      "./lib/Block.js",
-      "./lib/Renderer.js"
+    "./lib/talisman.js",
+    "./lib/Block.js",
+    "./lib/Renderer.js"
   ],
   "author": "Digital Design Labs",
   "contributors": [
