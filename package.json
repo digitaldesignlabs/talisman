@@ -8,6 +8,7 @@
   "files": [
     "./lib/talisman.js",
     "./lib/Block.js",
+    "./lib/RenderQueue.js",
     "./lib/Renderer.js"
   ],
   "author": "Digital Design Labs",
