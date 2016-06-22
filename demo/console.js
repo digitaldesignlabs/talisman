@@ -3,6 +3,7 @@
 const talisman = require("../lib/talisman");
 const path = require("path");
 const fetch = require("node-fetch");
+const ReadableStream = require("stream").Readable;
 
 function delay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -70,11 +71,27 @@ talisman.create(path.join(__dirname, "/console.html"))
             view.set({errorMessage: e.message});
         });
 
-        // Assign the iterator to the row
-        view.setIterator(data, "list:row");
+        view.waitUntil(data, "list")
+            .setIterator(data, "list:row");
+
+        // Iterators can be object streams
+        const source = [{name: "Object"}, {name: "Streams"}, {name: "FTW"}];
+        const stream = new ReadableStream({objectMode: true});
+        stream._read = function () {
+            if (source.length === 0) {
+                return this.push(null);
+            }
+            this.push(source.shift());
+        };
+
+        view.setIterator(stream, "externalContent:row");
 
         // Output as a stream
         return view.toStream();
     })
-    .then(output => output.pipe(process.stdout))
+    .then(output => {
+        output.on("error", e => {
+            throw e;
+        }).pipe(process.stdout);
+    })
     .catch(e => console.error(e.stack));
