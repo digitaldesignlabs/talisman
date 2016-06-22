@@ -18,6 +18,7 @@
   "license": "MIT",
   "scripts": {
     "demo": "node demo --",
+    "pretest": "./node_modules/eslint/bin/eslint.js ./lib/*.js",
     "test": "node tests"
   },
   "dependencies": {
@@ -25,6 +26,7 @@
     "html-escape": "^2.0.0"
   },
   "devDependencies": {
+    "eslint": "^2.13.1",
     "node-fetch": "^1.5.3",
     "tape": "^4.6.0"
   }
