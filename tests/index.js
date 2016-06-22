@@ -84,6 +84,31 @@ test("scoped variables", assert => {
         assert.end();
     });
 });
+test("Deeplinked variables", assert => {
+    talisman.createFromString("{#headerBlock}<h1>{name}'s Profile</h1>{/headerBlock}<p>Hello, {headerBlock.name}. {request.name} would like to be your friend.</p>").then(view => {
+        return view
+            .set({name: "Steve"}, "headerBlock")
+            .set({request: {name: "John"}})
+            .toString();
+
+    }).then(content => {
+        assert.equal(content, "<h1>Steve's Profile</h1><p>Hello, Steve. John would like to be your friend.</p>");
+        assert.end();
+    });
+});
+
+test("Deeplinked variable properties", assert => {
+    talisman.createFromString("{#headerBlock}<h1>{name}'s Profile</h1>{/headerBlock}<p>Hello, {headerBlock.name}. You have {headerBlock.name.length} letters in your name</p>").then(view => {
+        return view
+            .set({name: "Steve"}, "headerBlock")
+            .set({request: {name: "John"}})
+            .toString();
+
+    }).then(content => {
+        assert.equal(content, "<h1>Steve's Profile</h1><p>Hello, Steve. You have 5 letters in your name</p>");
+        assert.end();
+    });
+});
 
 test("promised variables", assert => {
     talisman.createFromString("Hello {name}!").then(view => {
