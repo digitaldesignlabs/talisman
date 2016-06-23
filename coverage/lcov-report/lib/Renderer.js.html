@@ -1,0 +1,947 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for lib/Renderer.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">lib/</a> Renderer.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">94.51% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>86/91</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>55/55</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>9/9</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">95.51% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>85/89</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">63×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">63×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">63×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">63×</span>
+<span class="cline-any cline-yes">63×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">58×</span>
+<span class="cline-any cline-yes">58×</span>
+<span class="cline-any cline-yes">58×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">470×</span>
+<span class="cline-any cline-yes">470×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">340×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">277×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">277×</span>
+<span class="cline-any cline-yes">136×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">141×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">138×</span>
+<span class="cline-any cline-yes">16×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">122×</span>
+<span class="cline-any cline-yes">15×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">107×</span>
+<span class="cline-any cline-yes">73×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">73×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">73×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">34×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">29×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">200×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">199×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">199×</span>
+<span class="cline-any cline-yes">23×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">176×</span>
+<span class="cline-any cline-yes">31×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">62×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">145×</span>
+<span class="cline-any cline-yes">39×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">145×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">145×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">145×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/**
+ * Talisman - the streaming template library
+ *
+ * "Your quest is to find the Talisman, though you may not hold it"
+ *
+ * @copyright Digital Design Labs Ltd
+ * @license MIT
+ */
+&nbsp;
+"use strict";
+&nbsp;
+const htmlescape = require("html-escape");
+const TransformStream = require("stream").Transform;
+const ReadableStream = require("stream").Readable;
+const RenderQueue = require("./RenderQueue").RenderQueue;
+&nbsp;
+/**
+ * Renderer
+ *
+ * Renders a block to a stream
+ *
+ * @exports {Renderer}
+ * @author Mike Hall
+ * @author David Hignett
+ */
+class Renderer extends TransformStream {
+&nbsp;
+    /**
+     * constructor()
+     *
+     * Set up the renderer
+     *
+     * @constructor
+     * @param {Block} block - a Block object to render
+     */
+    constructor(block) {
+&nbsp;
+        // Initialize in object mode
+        super({objectMode: true});
+&nbsp;
+        // Keep a handle on this block, so we can access it's visibility,
+        // masks, and vars at a later time.
+        this.block = block;
+&nbsp;
+        // This function takes custom vars passed in from a data source
+        // such as an array, or an object stream, and transforms it into
+        // a render-able block.
+        let counter = 0;
+        function createRowBlock(vars) {
+&nbsp;
+            // Clone the block
+            const clone = Object.create(block);
+&nbsp;
+            // Number the rows, starting at zero. You can mask these to make
+            // them into something more interesting if you want.
+            vars.talismanRowNum = counter;
+&nbsp;
+            // Remove the datasource from our clone
+            clone.dataSource = undefined;
+&nbsp;
+            // Integrate the variables for this row
+            clone.vars = Object.create(block.vars);
+            clone.setVariables(vars);
+&nbsp;
+            // Keep score.
+            counter += 1;
+            return clone;
+        }
+&nbsp;
+        // Test if this block has an iterator.
+        Promise.resolve(block.dataSource).then(data =&gt; {
+            if (data === undefined) {
+&nbsp;
+                // No iterator -- we just handle the block as is by transforming it into a render queue
+                // and piping it into this object to be transformed.
+                block.ready().then(templateText =&gt; {
+                    const renderQueue = new RenderQueue(templateText);
+                    renderQueue.on("error", e =&gt; <span class="cstat-no" title="statement not covered" >this.emit("error", e))</span>.pipe(this);
+                }).catch(() =&gt; {
+                    // Some pre-condition for this block failed, so we render nothing
+<span class="cstat-no" title="statement not covered" >                    this.end();</span>
+                });
+&nbsp;
+            } else if (Array.isArray(data) === true) {
+&nbsp;
+                // This block has an array data source. This means we need to iterate this
+                // block for as many elements as there are in the array, with custom
+                // vars defined for each row. We do this by piping a little readable stream
+                // to ourselves, where each call to _read() shifts the next element from the data array.
+                const renderQueue = new ReadableStream({objectMode: true});
+                renderQueue._read = function () {
+&nbsp;
+                    // If we are all out of data, we are done
+                    if (data.length === 0) {
+                        return this.push(null);
+                    }
+&nbsp;
+                    // Get the next row of data, and render that to a stream
+                    const row = data.shift();
+                    const stream = new Renderer(createRowBlock(row));
+&nbsp;
+                    // Push the stream object into this stream.
+                    this.push(stream);
+                };
+&nbsp;
+                // Pipe this stream into ourselves
+                renderQueue.pipe(this);
+&nbsp;
+            } else if (data instanceof ReadableStream) {
+&nbsp;
+                // We can only handle object mode streams here
+                if (data._readableState.objectMode !== true) {
+                    throw new Error("Iterator streams must be in object mode");
+                }
+&nbsp;
+                // Transform the readable stream into a stream of Renderer streams
+                const processDataStream = new TransformStream({objectMode: true});
+                processDataStream._transform = function (row, ignore, next) {
+                    const stream = new Renderer(createRowBlock(row));
+                    next(undefined, stream);
+                };
+&nbsp;
+                // Push the object stream through the transformer and then into the renderer
+                data.pipe(processDataStream).pipe(this);
+&nbsp;
+            } else {
+&nbsp;
+                // Can't handle this data type
+                this.emit("error", new Error("Unsupported data source; must be an array or object stream"));
+<span class="cstat-no" title="statement not covered" >                this.end();</span>
+            }
+&nbsp;
+        }).catch(() =&gt; this.end());
+    }
+&nbsp;
+    /**
+     * isStringOrBuffer()
+     *
+     * Looks if the passed element is a string or a Buffer
+     *
+     * @param {mixed} maybe
+     * @return {bool} true if it looks like a string or Buffer
+     */
+    isStringOrBuffer(maybe) {
+        const yes = maybe &amp;&amp; (typeof maybe === "string" || Buffer.isBuffer(maybe));
+        return !!yes;
+    }
+&nbsp;
+    /**
+     * isNullOrUndefined()
+     *
+     * Looks if the passed value is null or undefined
+     *
+     * @param {mixed} maybe
+     * @return {bool} true if the value is null or undefined
+     */
+    isNullOrUndefined(maybe) {
+        return maybe === undefined || maybe === null;
+    }
+&nbsp;
+    /**
+     * getDeeplinkValue()
+     * This function parses a content string for tags with {single} or {{double}} curly braces.
+     * @param {Block|Object} inputObject - A thing to look inside of when looking for values
+     * @return {array} - A renderable queue, containing strings and tag objects only
+     */
+&nbsp;
+    getDeeplinkValue(inputObject, deeplinks) {
+        const thisLink = deeplinks.shift();
+        let data = inputObject;
+        if (inputObject.is === "block") {
+            data = inputObject.vars;
+        }
+        const linkValue = data[thisLink];
+        if (deeplinks.length &gt; 0) {
+            return this.getDeeplinkValue(linkValue, deeplinks);
+        }
+        return linkValue;
+    }
+&nbsp;
+    /**
+     * processElement()
+     * Resolves the content of given element, returning a Promise for either a string or a stream
+     * @param {string|object} element - An element from the render queue
+     * @return {Promise&lt;string|stream&gt;}
+     */
+    processElement(element) {
+        return Promise.resolve(element).then(element =&gt; {
+&nbsp;
+            // Strings and buffers we can return right away
+            if (this.isStringOrBuffer(element) === true) {
+                return element;
+            }
+&nbsp;
+            // If there is nothing there, just return empty string
+            if (this.isNullOrUndefined(element) === true) {
+                return "";
+            }
+&nbsp;
+            // Blocks we can return their stream
+            if (element &amp;&amp; element.is === "block") {
+                return element.render();
+            }
+&nbsp;
+            // Streams we can just return
+            if (element instanceof ReadableStream) {
+                return element;
+            }
+&nbsp;
+            // Tags, we load their data from the block and recurse
+            if (element &amp;&amp; element.is === "tag") {
+                let data = this.block.vars[element.name];
+&nbsp;
+                if (element.deeplinks) {
+                    // If we find a deeplink, then rather than handling it normally we want to check whatever data is to
+                    // retrieve a value from inside of it.
+                    data = this.getDeeplinkValue(data, element.deeplinks);
+                }
+                return this.processElement(data);
+            }
+&nbsp;
+            // Functions we execute and then recurse
+            if (typeof element === "function") {
+                return this.processElement(element());
+            }
+&nbsp;
+            // Anything else, just return as-is
+            return element;
+        });
+    }
+&nbsp;
+    /**
+     * _transform()
+     *
+     * Transforms elements from the piped render queue into strings we can output
+     *
+     * @param {mixed} element - The next element from the queue
+     * @param {ignore} ignore
+     * @param {function} next - Callback to run when done
+     * @return {undefined}
+     */
+    _transform(element, ignore, next) {
+&nbsp;
+        // If this block is hidden, do nothing
+        if (this.block.isVisible === false) {
+            return this.push(null);
+        }
+&nbsp;
+        // Otherwise, process the element.
+        this.processElement(element).then(data =&gt; {
+&nbsp;
+            // Data should now be a stream, Buffer, string, or some other scalar
+&nbsp;
+            // If we only have an empty value, then just move on
+            if (this.isNullOrUndefined(data) === true || data === "") {
+                return next();
+            }
+&nbsp;
+            // If it is a stream, push it down our output stream
+            if (data instanceof ReadableStream) {
+                return data.on("end", () =&gt; next())
+                    .on("error", e =&gt; <span class="cstat-no" title="statement not covered" >this.emit("error", e))</span>
+                    .on("data", chunk =&gt; this.push(chunk));
+            }
+&nbsp;
+            // If the data must be escaped, escape it
+            if (element.escape === true &amp;&amp; this.isStringOrBuffer(data) === true) {
+                data = htmlescape(data);
+            }
+&nbsp;
+            // Push the data through any masks which are interested.
+            // Masks come after escaping, so masks can return markup if they choose.
+            if (element.masks) {
+                element.masks.forEach(mask =&gt; {
+                    if (typeof this.block.masks[mask] === "function") {
+                        data = this.block.masks[mask](data);
+                    }
+                });
+            }
+&nbsp;
+            // If this element is still not a string, then toString() it
+            if (this.isStringOrBuffer(data) === false) {
+                data = data.toString();
+            }
+&nbsp;
+            // Push it down the pipe
+            next(undefined, data);
+&nbsp;
+        }).catch(e =&gt; <span class="cstat-no" title="statement not covered" >this.emit("error", e))</span>;
+    }
+}
+&nbsp;
+// Export public API
+module.exports.Renderer = Renderer;
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Jun 23 2016 17:04:48 GMT+0100 (BST)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>
