@@ -6,10 +6,7 @@
   "repository": "digitaldesignlabs/talisman",
   "main": "./lib/talisman.js",
   "files": [
-    "./lib/talisman.js",
-    "./lib/Block.js",
-    "./lib/RenderQueue.js",
-    "./lib/Renderer.js"
+    "./lib"
   ],
   "author": "Digital Design Labs",
   "contributors": [

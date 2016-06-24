@@ -32,6 +32,7 @@ talisman.create(path.join(__dirname, "/console.html"))
         const streamedContent = fetch("https://digitaldesignlabs.com/humans.txt")
             .then(r => r.body)
             .catch(() => "Well that didn't work");
+
         view.set({streamedContent});
 
         // External files can be loaded into variables as new blocks
@@ -57,9 +58,8 @@ talisman.create(path.join(__dirname, "/console.html"))
                 {label: "from"},
                 {label: "scratch"}
             ];
-        });
 
-        data.then(() => {
+        }).then(() => {
 
             // Remove the error if its ok
             view.remove("nolist");
@@ -71,8 +71,7 @@ talisman.create(path.join(__dirname, "/console.html"))
             view.set({errorMessage: e.message});
         });
 
-        view.waitUntil(data, "list")
-            .setIterator(data, "list:row");
+        view.waitUntil(data, "list").setIterator(data, "list:row");
 
         // Iterators can be object streams
         const source = [{name: "Object"}, {name: "Streams"}, {name: "FTW"}];
@@ -90,8 +89,7 @@ talisman.create(path.join(__dirname, "/console.html"))
         return view.toStream();
     })
     .then(output => {
-        output.on("error", e => {
-            throw e;
-        }).pipe(process.stdout);
+        output.on("error", e => console.error(e))
+            .pipe(process.stdout);
     })
     .catch(e => console.error(e.stack));
