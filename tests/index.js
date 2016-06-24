@@ -1,5 +1,3 @@
-/* eslint no-underscore-dangle: 0 */
-
 "use strict";
 
 const test = require("tape");
@@ -453,7 +451,8 @@ test("Handle invalid iterators", assert => {
     }).then(content => {
         assert.equal(content, "beforeafter");
     }).catch(error => {
-        assert.equal(error, "Unsupported data source; must be an array or object stream");
+        assert.equal(error instanceof Error, true);
+        assert.equal(error.message, "Unsupported data source; must be an array or object stream");
     }).then(() => {
         assert.end();
     });
@@ -466,7 +465,8 @@ test("Handle invalid non-object mode stream as iterator", assert => {
     }).then(content => {
         assert.equal(content, "beforeafter");
     }).catch(error => {
-        assert.equal(error, "Iterator streams must be in object mode");
+        assert.equal(error instanceof Error, true);
+        assert.equal(error.message, "Iterator streams must be in object mode");
     }).then(() => {
         assert.end();
     });
