@@ -59,10 +59,11 @@ talisman.create(path.join(__dirname, "/console.html"))
                 {label: "scratch"}
             ];
 
-        }).then(() => {
+        }).then(data => {
 
             // Remove the error if its ok
             view.remove("nolist");
+            return data;
 
         }).catch(e => {
 
