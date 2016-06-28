@@ -72,8 +72,10 @@ test("toString as callback", assert => {
 
 test("Outputting data to a stream", assert => {
     talisman.createFromString("Hello World!").then(view => {
-        const outputStream = view.toStream();
+
         let content = "Stream Output: ";
+
+        const outputStream = view.toStream();
         assert.equal(outputStream instanceof ReadableStream, true);
 
         outputStream.on("data", data => {
@@ -228,7 +230,6 @@ test("Wait until a certain promise has resolved before continuing", assert => {
 // Blocks
 
 test("Remove a block", assert => {
-
     talisman.createFromString("Hello {#censored}***The Royal Family are actually Lizards***{/censored} World!").then(view => {
         return view.remove("censored").toString();
     }).then(content => {
@@ -238,7 +239,6 @@ test("Remove a block", assert => {
 });
 
 test("Restore a previously removed block", assert => {
-
     talisman.createFromString("Hello {#censored}***No really, The Royal Family really are actually Lizards***{/censored} World!").then(view => {
         return view.remove("censored").restore("censored").toString();
     }).then(content => {
@@ -251,11 +251,9 @@ test("Restore a previously removed block", assert => {
 
 test("scoped variables", assert => {
     talisman.createFromString("{greet} {name}{bang}\n{#excellent}{greet} {name}{bang}{/excellent}").then(view => {
-
         return view.set({greet: "Hello", name: "Bill"})
             .set({name: "Ted", bang: "!"}, "excellent")
             .toString();
-
     }).then(content => {
         assert.equal(content, "Hello Bill\nHello Ted!");
         assert.end();
@@ -267,7 +265,6 @@ test("Deeplinked variables", assert => {
             .set({name: "Steve"}, "profile")
             .set({request: {name: "John"}})
             .toString();
-
     }).then(content => {
         assert.equal(content, "<h1>Steve's Profile</h1><p>Hello, Steve. John would like to be your friend.</p>");
         assert.end();
@@ -280,7 +277,6 @@ test("Deeplinked variable properties", assert => {
             .set({name: "Steve"}, "profile")
             .set({request: {name: "John"}})
             .toString();
-
     }).then(content => {
         assert.equal(content, "<h1>Steve's Profile</h1><p>Hello, Steve. You have 5 letters in your name.</p>");
         assert.end();
@@ -290,8 +286,8 @@ test("Deeplinked variable properties", assert => {
 test("Deeplinked promised variables", assert => {
     talisman.createFromString("{#profile}<h1>{name}'s Profile</h1>{/profile}<p>Hello, {profile.name}. {request.name} would like to be your friend.</p>").then(view => {
         return view.set(delay({name: "Sarah"}, 500), "profile")
-        .set(delay({request: {name: "Steve"}}, 500))
-        .toString();
+            .set(delay({request: {name: "Steve"}}, 500))
+            .toString();
     }).then(content => {
         assert.equal(content, "<h1>Sarah's Profile</h1><p>Hello, Sarah. Steve would like to be your friend.</p>");
         assert.end();
@@ -443,7 +439,6 @@ test("composing deep blocks from the filesystem", assert => {
 // Errors
 
 test("Handle malformed tags", assert => {
-
     talisman.createFromString("Hello {name}}, Hello {{name}!").then(view => {
         return view.set({name: "World"}).toString();
     }).then(content => {
@@ -456,8 +451,8 @@ test("Handle invalid iterators", assert => {
     talisman.createFromString("before{#block}{label}{/block}after").then(view => {
         const iterator = 13;
         return view.setIterator(iterator, "block").toString();
-    }).then(content => {
-        assert.equal(content, "beforeafter");
+    }).then(() => {
+        assert.equal(false, true); // Shouldn't get here
     }).catch(error => {
         assert.equal(error instanceof Error, true);
         assert.equal(error.message, "Unsupported data source; must be an array or object stream");
@@ -470,8 +465,8 @@ test("Handle invalid non-object mode stream as iterator", assert => {
     talisman.createFromString("before{#block}{label}{/block}after").then(view => {
         const nonObjectStream = new ReadableStream();
         return view.setIterator(nonObjectStream, "block").toString();
-    }).then(content => {
-        assert.equal(content, "beforeafter");
+    }).then(() => {
+        assert.equal(false, true); // Shouldn't get here
     }).catch(error => {
         assert.equal(error instanceof Error, true);
         assert.equal(error.message, "Iterator streams must be in object mode");
@@ -482,8 +477,6 @@ test("Handle invalid non-object mode stream as iterator", assert => {
 
 test("Handle error event in stream variable while rendering as a string", assert => {
     talisman.createFromString("Testing {test}").then(view => {
-        let streamFunctionThrow = false;
-        assert.equal(streamFunctionThrow, false);
         return view.set({test: errorStream()}).toString();
     }).catch(error => {
         assert.equal(error instanceof Error, true);
@@ -503,7 +496,6 @@ test("Handle error event in stream variable while rendering as a string with a c
         });
     });
 });
-
 
 test("Handle attempting to load a template into a non-existent block", assert => {
     talisman.createFromString("Loading external resource: {#external}{content}{/external}").then(view => {
@@ -594,7 +586,7 @@ test("Handle attempting to addMask on a non-existent block", assert => {
 test("Handle attempting to removeMask on a non-existent block", assert => {
     talisman.createFromString("{#validBlock}{bleh|reverse}{/validBlock}").then(view => {
         view.set({bleh: "bleh"})
-        .addMask("reverse", s => s.split("").reverse().join(""), "validBlock"); // invalid block is invalid
+            .addMask("reverse", s => s.split("").reverse().join(""), "validBlock"); // invalid block is invalid
         const invalidBlock = view.removeMask("reverse", "invalid"); // invalid block is invalid
         return Promise.all([invalidBlock, view]);
     }).then(responses => {
