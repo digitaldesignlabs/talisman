@@ -8,6 +8,16 @@
   "files": [
     "./lib"
   ],
+  "keywords": [
+    "template",
+    "templates",
+    "views",
+    "html",
+    "streams",
+    "talisman",
+    "talismanjs",
+    "talisman.js"
+  ],
   "author": "Digital Design Labs",
   "contributors": [
     "Mike Hall <mikehall314@gmail.com> (github.com/mikehall314)",
