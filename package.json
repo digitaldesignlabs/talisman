@@ -17,14 +17,17 @@
   "scripts": {
     "demo": "node demo --",
     "pretest": "./node_modules/eslint/bin/eslint.js ./lib/*.js",
-    "test": "node tests"
+    "test": "node tests",
+    "test-travis": "./node_modules/istanbul/lib/cli.js cover ./tests"
   },
   "dependencies": {
     "es6-promisify": "^4.0.0",
     "html-escape": "^2.0.0"
   },
   "devDependencies": {
+    "coveralls": "^2.11.9",
     "eslint": "^2.13.1",
+    "istanbul": "^0.4.4",
     "node-fetch": "^1.5.3",
     "tape": "^4.6.0"
   }
