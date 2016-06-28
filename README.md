@@ -10,7 +10,7 @@ npm install talismanjs --save
 ```
 
 ## Streams FTW! ##
-[Streams are awesome](https://jakearchibald.com/2016/streams-ftw/), and so Talisman is built to be used as a streaming template system. This means you render Talisman templates to a stream, which you can then pipe to a writable stream, like `process.stdout` or `ServerResponse`.
+[Streams are awesome](https://jakearchibald.com/2016/streams-ftw/), and so Talisman is built to be used as a streaming template system. This means you render Talisman templates to a stream, which you can then pipe to a writable stream, like `process.stdout` or `http.ServerResponse`.
 
 If this can't work for your project, then you can call `.toString()` instead, which will returns a `Promise` for a string you can output the old-fashioned way.
 
