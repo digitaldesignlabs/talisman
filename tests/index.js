@@ -18,6 +18,14 @@ function stream(content) {
     return s;
 }
 
+function errorStream() {
+    const s = new ReadableStream();
+    s._read = function oops() {
+        this.emit("error", new Error("Oops!"));
+    };
+    return s;
+}
+
 function objectStream() {
 
     const dataStream = new ReadableStream({objectMode: true});
@@ -468,6 +476,128 @@ test("Handle invalid non-object mode stream as iterator", assert => {
         assert.equal(error instanceof Error, true);
         assert.equal(error.message, "Iterator streams must be in object mode");
     }).then(() => {
+        assert.end();
+    });
+});
+
+test("Handle error event in stream variable while rendering as a string", assert => {
+    talisman.createFromString("Testing {test}").then(view => {
+        let streamFunctionThrow = false;
+        assert.equal(streamFunctionThrow, false);
+        return view.set({test: errorStream()}).toString();
+    }).catch(error => {
+        assert.equal(error instanceof Error, true);
+        assert.equal(error.message, "Oops!");
+    }).then(() => {
+        assert.end();
+    });
+});
+
+test("Handle error event in stream variable while rendering as a string with a callback", assert => {
+    talisman.createFromString("Testing {test}").then(view => {
+        return view.set({test: errorStream()}).toString((error, content) => {
+            assert.equal(content, undefined);
+            assert.equal(error instanceof Error, true);
+            assert.equal(error.message, "Oops!");
+            assert.end();
+        });
+    });
+});
+
+
+test("Handle attempting to load a template into a non-existent block", assert => {
+    talisman.createFromString("Loading external resource: {#external}{content}{/external}").then(view => {
+        const invalidBlock = view.load(path.join(__dirname, "sample-3.html"), "content", "invalid"); // invalid block is invalid
+        return Promise.all([invalidBlock, view]);
+    }).then(([returnedApi, correctApi]) => {
+        assert.deepEqual(returnedApi, correctApi);
+        assert.end();
+    });
+});
+
+test("Handle attempting to set a variable into a non-existent block", assert => {
+    talisman.createFromString("{#validBlock}{content}{/validBlock}").then(view => {
+        const invalidBlock = view.set({content: "test"}, "invalid"); // invalid block is invalid
+        return Promise.all([invalidBlock, view]);
+    }).then(([returnedApi, correctApi]) => {
+        assert.deepEqual(returnedApi, correctApi);
+        assert.end();
+    });
+});
+
+test("Handle attempting to set an iterator on a non-existent block", assert => {
+    talisman.createFromString("{#validBlock}{label}{/validBlock}").then(view => {
+        const iterator = [{label: 1}, {label: 2}, {label: 3}];
+        const invalidBlock = view.setIterator(iterator, "invalid"); // invalid block is invalid
+        return Promise.all([invalidBlock, view]);
+    }).then(([returnedApi, correctApi]) => {
+        assert.deepEqual(returnedApi, correctApi);
+        assert.end();
+    });
+});
+
+test("Handle attempting to set a variable into a non-existent block", assert => {
+    talisman.createFromString("{#validBlock}{content}{/validBlock}").then(view => {
+        const invalidBlock = view.set({content: "test"}, "invalid"); // invalid block is invalid
+        return Promise.all([invalidBlock, view]);
+    }).then(([returnedApi, correctApi]) => {
+        assert.deepEqual(returnedApi, correctApi);
+        assert.end();
+    });
+});
+
+test("Handle attempting to remove a non-existent block", assert => {
+    talisman.createFromString("{#validBlock}Bleh{/validBlock}").then(view => {
+        const invalidBlock = view.remove("invalid"); // invalid block is invalid
+        return Promise.all([invalidBlock, view]);
+    }).then(([returnedApi, correctApi]) => {
+        assert.deepEqual(returnedApi, correctApi);
+        assert.end();
+    });
+});
+
+test("Handle attempting to restore a non-existent block", assert => {
+    talisman.createFromString("{#validBlock}Bleh{/validBlock}").then(view => {
+        const invalidBlock = view.restore("invalid"); // invalid block is invalid
+        return Promise.all([invalidBlock, view]);
+    }).then(([returnedApi, correctApi]) => {
+        assert.deepEqual(returnedApi, correctApi);
+        assert.end();
+    });
+});
+
+test("Handle attempting to addMask on a non-existent block", assert => {
+    talisman.createFromString("{#validBlock}{bleh|reverse}{/validBlock}").then(view => {
+        view.set({bleh: "bleh"});
+        const invalidBlock = view.addMask("reverse", s => s.split("").reverse().join(""), "invalid"); // invalid block is invalid
+        return Promise.all([invalidBlock, view]);
+    }).then(([returnedApi, correctApi]) => {
+        assert.deepEqual(returnedApi, correctApi);
+        assert.end();
+    });
+});
+
+test("Handle attempting to removeMask on a non-existent block", assert => {
+    talisman.createFromString("{#validBlock}{bleh|reverse}{/validBlock}").then(view => {
+        view.set({bleh: "bleh"})
+        .addMask("reverse", s => s.split("").reverse().join(""), "validBlock"); // invalid block is invalid
+        const invalidBlock = view.removeMask("reverse", "invalid"); // invalid block is invalid
+        return Promise.all([invalidBlock, view]);
+    }).then(([returnedApi, correctApi]) => {
+        assert.deepEqual(returnedApi, correctApi);
+        assert.end();
+    });
+});
+
+test("Handle attempting to waitUntil on a non-existent block", assert => {
+
+    talisman.createFromString("{test1}, Wait for it... {#delayBlock}{test2}, {test3}{/delayBlock}").then(view => {
+        const delayPromise = delay("Ok", 500);
+        view.set({test1: "Test 1 Done"}).set({test2: "Test 2 Done", test3: "All Tests Done"}, "invalid");
+        const invalidBlock = view.waitUntil(delayPromise, "invalid"); // invalid block is invalid
+        return Promise.all([invalidBlock, view]);
+    }).then(([returnedApi, correctApi]) => {
+        assert.deepEqual(returnedApi, correctApi);
         assert.end();
     });
 });
