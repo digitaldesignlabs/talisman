@@ -5,13 +5,6 @@
   "bugs": "https://github.com/digitaldesignlabs/talisman/issues",
   "repository": "digitaldesignlabs/talisman",
   "main": "./lib/talisman.js",
-  "files": [
-    "./lib/Block.js",
-    "./lib/RenderQueue.js",
-    "./lib/Renderer.js",
-    "./lib/talisman.js",
-    "./lib/tools.js"
-  ],
   "keywords": [
     "template",
     "templates",
