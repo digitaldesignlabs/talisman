@@ -2,33 +2,46 @@
   "name": "talismanjs",
   "version": "0.5.0",
   "description": "A streaming promise-aware templating engine for Node.js.",
-  "bugs": "https://github.com/digitaldesignlabs/talisman/issues",
+  "license": "MIT",
+  "author": "Digital Design Labs",
+  "contributors": [
+    {
+      "name": "Mike Hall",
+      "email": "mikehall314@gmail.com",
+      "url": "https://github.com/mikehall314"
+    },
+    {
+      "name": "David Hignett",
+      "email": "david@hignatious.co.uk",
+      "url": "https://github.com/hignatious"
+    }
+  ],
+  "main": "lib/talisman.js",
+  "files": [
+    "lib/"
+  ],
+  "engines": {
+      "node": ">=4.0"
+  },
   "repository": "digitaldesignlabs/talisman",
-  "main": "./lib/talisman.js",
+  "bugs": "https://github.com/digitaldesignlabs/talisman/issues",
   "keywords": [
     "template",
-    "templates",
-    "views",
+    "stream",
+    "view",
     "html",
-    "streams",
     "talisman",
     "talismanjs",
     "talisman.js"
   ],
-  "author": "Digital Design Labs",
-  "contributors": [
-    "Mike Hall <mikehall314@gmail.com> (github.com/mikehall314)",
-    "David Hignett <david@hignatious.co.uk> (github.com/hignatious)"
-  ],
-  "license": "MIT",
   "scripts": {
     "demo": "node demo --",
-    "pretest": "./node_modules/eslint/bin/eslint.js ./lib/*.js",
+    "pretest": "node_modules/eslint/bin/eslint.js lib/*.js tests/*.js",
     "test": "node tests",
-    "test-travis": "./node_modules/istanbul/lib/cli.js cover ./tests"
+    "test-travis": "node_modules/istanbul/lib/cli.js cover tests"
   },
   "dependencies": {
-    "es6-promisify": "^4.0.0",
+    "es6-promisify": "^4.1.0",
     "html-escape": "^2.0.0"
   },
   "devDependencies": {
