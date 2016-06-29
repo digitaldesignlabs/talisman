@@ -6,7 +6,11 @@
   "repository": "digitaldesignlabs/talisman",
   "main": "./lib/talisman.js",
   "files": [
-    "./lib"
+    "./lib/Block.js",
+    "./lib/RenderQueue.js",
+    "./lib/Renderer.js",
+    "./lib/talisman.js",
+    "./lib/tools.js"
   ],
   "keywords": [
     "template",
