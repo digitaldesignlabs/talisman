@@ -41,7 +41,6 @@
     "test-travis": "node_modules/istanbul/lib/cli.js cover tests"
   },
   "dependencies": {
-    "es6-promisify": "^4.1.0",
     "html-escape": "^2.0.0"
   },
   "devDependencies": {

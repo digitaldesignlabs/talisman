@@ -2,9 +2,7 @@
 
 const test = require("tape");
 const talisman = require("../lib/talisman.js");
-
 const ReadableStream = require("stream").Readable;
-const path = require("path");
 
 function delay(content, ms) {
     return new Promise(resolve => setTimeout(resolve, ms, content));
@@ -406,7 +404,19 @@ test("preserving template tags with a CDATA tag", assert => {
 // Composition of template files
 
 test("templates from the filesystem", assert => {
-    talisman.create(path.join(__dirname, "/sample-1.html")).then(view => {
+    talisman.setTemplatePath(__dirname);
+    talisman.create("sample-1.html").then(view => {
+        return view.set({name: "World"}).toString();
+    }).then(content => {
+        assert.equal(content, "Hello World from the filesystem!\n");
+        assert.end();
+    });
+});
+
+test("templates from the filesystem with absolute path", assert => {
+    talisman.setTemplatePath(__dirname);
+    const absolute = require("path").resolve(__dirname, "./sample-1.html");
+    talisman.create(absolute).then(view => {
         return view.set({name: "World"}).toString();
     }).then(content => {
         assert.equal(content, "Hello World from the filesystem!\n");
@@ -415,8 +425,9 @@ test("templates from the filesystem", assert => {
 });
 
 test("composing blocks from the filesystem", assert => {
-    talisman.create(path.join(__dirname, "sample-2.html")).then(view => {
-        return view.load(path.join(__dirname, "sample-3.html"), "content");
+    talisman.setTemplatePath(__dirname);
+    talisman.create("sample-2.html").then(view => {
+        return view.load("sample-3.html", "content");
     }).then(view => {
         return view.toString();
     }).then(content => {
@@ -426,8 +437,9 @@ test("composing blocks from the filesystem", assert => {
 });
 
 test("composing deep blocks from the filesystem", assert => {
-    talisman.create(path.join(__dirname, "sample-2.html")).then(view => {
-        return view.load(path.join(__dirname, "sample-3.html"), "deepContent", "innerBlock");
+    talisman.setTemplatePath(__dirname);
+    talisman.create("sample-2.html").then(view => {
+        return view.load("sample-3.html", "deepContent", "innerBlock");
     }).then(view => {
         return view.toString();
     }).then(content => {
@@ -499,7 +511,7 @@ test("Handle error event in stream variable while rendering as a string with a c
 
 test("Handle attempting to load a template into a non-existent block", assert => {
     talisman.createFromString("Loading external resource: {#external}{content}{/external}").then(view => {
-        const invalidBlock = view.load(path.join(__dirname, "sample-3.html"), "content", "invalid"); // invalid block is invalid
+        const invalidBlock = view.load("sample-3.html", "content", "invalid"); // invalid block is invalid
         return Promise.all([invalidBlock, view]);
     }).then(responses => {
         const returnedApi = responses[0];
