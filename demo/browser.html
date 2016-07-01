@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>{title}</title>
+        <title>{{title}}</title>
     </head>
 
     <body>
@@ -27,9 +27,9 @@
                 <tbody>
                     {#fakeTablePromise1}
                     <tr>
-                        <td>{id}</td>
-                        <td>{name}</td>
-                        <td>{price}</td>
+                        <td>{{id}}</td>
+                        <td>{{name}}</td>
+                        <td>{{price}}</td>
                     </tr>
                     {/fakeTablePromise1}
                 </tbody>
@@ -40,12 +40,12 @@
                 while waiting for it to turn up.
             </p>
             <ul>
-                <li style="background: {templateColor}">{fakeSlowContent1}</li>
-                <li style="background: {templateColor}">{fakeSlowContent2}</li>
-                <li style="background: {templateColor}">{fakeSlowContent3}</li>
-                <li style="background: {templateColor}">{fakeSlowContent4}</li>
-                <li style="background: {templateColor}">{fakeSlowContent5}</li>
-                <li style="background: {templateColor}">{fakeSlowContent6}</li>
+                <li style="background: {{templateColor}}">{{fakeSlowContent1}}</li>
+                <li style="background: {{templateColor}}">{{fakeSlowContent2}}</li>
+                <li style="background: {{templateColor}}">{{fakeSlowContent3}}</li>
+                <li style="background: {{templateColor}}">{{fakeSlowContent4}}</li>
+                <li style="background: {{templateColor}}">{{fakeSlowContent5}}</li>
+                <li style="background: {{templateColor}}">{{fakeSlowContent6}}</li>
             </ul>
             <p>
                 And now we carry on rendering static content as normal until we reach the end of the page.

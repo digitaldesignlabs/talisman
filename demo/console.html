@@ -2,19 +2,19 @@
 <html>
     <head>
         <script src="./if-i-had-javascript-id-already-be-loading-it-by-now.js" async></script>
-        <title>{title}</title>
+        <title>{{title}}</title>
     </head>
 
     <body>
         <!-- We wait for slow promises to resolve -->
-        <h1>{pageTitle}</h1>
+        <h1>{{pageTitle}}</h1>
 
         <!-- CDATA is shown without processing -->
-        {{CDATA[ <div>{pageTitle}</div> ]}}
+        {{CDATA[ <div>{{pageTitle}}</div> ]}}
 
         {/*
         <!-- Comments are removed -->
-        <h1>{pageTitle}</h1>
+        <h1>{{pageTitle}}</h1>
         */}
 
         {/* # marks a block */}
@@ -25,28 +25,27 @@
 
         <p>Re-used promises resolve right away. Like here I'm going to use {{CDATA[{pageTitle}]}} again.
             This promise was slow before, but instant here. I'm also going to apply a mask to make this
-            lowercase. Look: {pageTitle|lowercase}</p>
+            lowercase. Look: {{pageTitle|lowercase}}</p>
 
         {#list}
         <ul>
             {#row}
-            <li>{talismanRowNum|plusplus}. {label|uppercase}</li>
+            <li>{{talismanRowNum|plusplus}}. {{label|uppercase}}</li>
             {/row}
         </ul>
         {/list}
 
         {#nolist}
-        <p>Sorry! Looks like your promise rejected: {errorMessage|lowercase}</p>
+        <p>Sorry! Looks like your promise rejected: {{errorMessage|lowercase}}</p>
         {/nolist}
 
-        <p>This HTML is escaped: {html}</p>
-        <p>This HTML is not: {{html}}</p>
+        <p>This HTML is escaped: {{html}}</p>
+        <p>This HTML is not: {{{html}}}</p>
 
         <!-- This block is from a partial -->
-        {externalContent}
+        {{externalContent}}
 
         <!-- You can also load streams -->
-        <div>{streamedContent}</div>
-
+        <div>{{streamedContent}}</div>
     </body>
 </html>

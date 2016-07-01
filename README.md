@@ -1,5 +1,5 @@
 [![Travis CI](https://travis-ci.org/digitaldesignlabs/talisman.svg)](https://travis-ci.org/digitaldesignlabs/talisman)
-[![Coverage Status](https://coveralls.io/repos/github/digitaldesignlabs/talisman/badge.svg?branch=master)](https://coveralls.io/github/digitaldesignlabs/talisman?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/digitaldesignlabs/talisman/badge.svg)](https://coveralls.io/github/digitaldesignlabs/talisman)
 
 # Talisman #
 Talisman is a logicless streaming templating system and language for Node.js, created by Digital Design Labs.
@@ -18,25 +18,25 @@ If this can't work for your project, then you can call `.toString()` instead, wh
 Talisman uses a very simple syntax, based around two key concepts: **blocks** and **variables**.
 
 #### Variables ####
-Talisman allows you to define variable placeholders which will be later populated with data. They are enclosed by curly braces. Variables can be strings, Buffers, streams, or Promises for any of these. If a function is set as a variable value, its return value will be used.
+Talisman allows you to define variable placeholders which will be later populated with data. They are enclosed by double curly braces. Variables can be strings, Buffers, streams, or Promises for any of these. If a function is set as a variable value, its return value will be used.
 
 ```js
 // This will output:
 // Hello World!
-talisman.createFromString("Hello {name}!").then(view => {
+talisman.createFromString("Hello {{name}}!").then(view => {
     view.set({name: "World"})
         .toStream()
         .pipe(process.stdout);
 });
 ```
 
-Variables are automatically escaped before they are displayed. You can request Talisman does not do this by using a double-brace to define the variable placeholder, e.g. ```{{varName}}``` would not be escaped.
+Variables are automatically escaped before they are displayed. You can request Talisman does not do this by using a triple-brace to define the variable placeholder, e.g. ```{{{varName}}}``` would not be escaped.
 
 ```js
 // This will output:
 // Your name is <strong>World</strong>.
 // The markup was &lt;strong>World&lt;/strong>.
-talisman.createFromString("Your name is {{name}}.\nThe markup was {name}.").then(view => {
+talisman.createFromString("Your name is {{{name}}}.\nThe markup was {{name}}.").then(view => {
     view.set({name: "<strong>World</strong>"})
         .toStream()
         .pipe(process.stdout);
@@ -56,7 +56,7 @@ A block defines a chunk of text within the template. Blocks can used as loops (b
 // <li>Grapes</li>
 // </ul>
 const template = "<h1>Shopping List</h1>\n<ul>\n"
-    + "{#row}<li>{item}</li>\n{/row}"
+    + "{#row}<li>{{item}}</li>\n{/row}"
     + "{#norows}<li>I'm afraid we're fresh out of waldorfs...</li>\n{/norows}"
     + "</ul>";
 
@@ -97,7 +97,7 @@ Variables can have masks applied to them. These are functions which transform th
 // <li>Grapes: $0.75</li>
 // </ul>
 const template = "<h1>Price List</h1>\n<ul>\n"
-    + "{#row}<li>{item}: {price|format}</li>\n{/row}"
+    + "{#row}<li>{{item}}: {{price|format}}</li>\n{/row}"
     + "</ul>";
 
 const data = [
@@ -115,7 +115,7 @@ talisman.createFromString(template).then(view => {
 });
 ```
 
-Masks may also be chained, e.g. ```{name|parseAsMarkdown|lowercase}```
+Masks may also be chained, e.g. ```{{name|parseAsMarkdown|lowercase}}```
 
 #### Loading templates from files ####
 Usually, you would not load templates from JavaScript strings, but from the filesystem.
@@ -129,15 +129,15 @@ You can also load partial content from files.
 <!doctype html>
 <html>
 <!-- main.html -->
-<title>{pageTitle}</title>
-{content}
+<title>{{pageTitle}}</title>
+{{content}}
 </html>
 ```
 ```html
 <!-- article.html -->
-<h1>{pageTitle}</h1>
-<h2>Posted: {date|dateFormat}</h2>
-{bodyContent|makeParagraphs}
+<h1>{{pageTitle}}</h1>
+<h2>Posted: {{date|dateFormat}}</h2>
+{{bodyContent|makeParagraphs}}
 ```
 ```js
 talisman.create("main.html").then(view => {
@@ -180,7 +180,7 @@ talisman.create("main.html").then(view => {
 });
 ```
 
-The `minify-html-stream` project currently is really basic and cautious. [You can make it better](https://github.com/digitaldesignlabs/minify-html-stream).
+The `minify-html-stream` project currently is basic and very cautious. [You can make it better](https://github.com/digitaldesignlabs/minify-html-stream).
 
 ## Simple Demos ##
 ```bash

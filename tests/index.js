@@ -59,7 +59,7 @@ test("Outputting data to a stream", assert => {
 });
 
 test("toString as callback", assert => {
-    talisman.createFromString("Hello {name}!").then(view => {
+    talisman.createFromString("Hello {{name}}!").then(view => {
         return view.set({name: "World"}).toString((err, content) => {
             assert.equal(err, undefined);
             assert.equal(content, "Hello World!");
@@ -88,7 +88,7 @@ test("Outputting data to a stream", assert => {
 // Variable Assignment
 
 test("simple variable replacement", assert => {
-    talisman.createFromString("Hello {name}!").then(view => {
+    talisman.createFromString("Hello {{name}}!").then(view => {
         return view.set({name: "World"}).toString();
     }).then(content => {
         assert.equal(content, "Hello World!");
@@ -97,7 +97,7 @@ test("simple variable replacement", assert => {
 });
 
 test("Number variables", assert => {
-    talisman.createFromString("<ul><li>Count: {count}</li><li>Amount: {sum}</li></ul>").then(view => {
+    talisman.createFromString("<ul><li>Count: {{count}}</li><li>Amount: {{sum}}</li></ul>").then(view => {
         return view.set({count: 23, sum: 44255.12}).toString();
     }).then(content => {
         assert.equal(content, "<ul><li>Count: 23</li><li>Amount: 44255.12</li></ul>");
@@ -106,7 +106,7 @@ test("Number variables", assert => {
 });
 
 test("maps as variables", assert => {
-    talisman.createFromString("Hello {name}!").then(view => {
+    talisman.createFromString("Hello {{name}}!").then(view => {
 
         const map = new Map();
         map.set("name", "World");
@@ -119,7 +119,7 @@ test("maps as variables", assert => {
 });
 
 test("promises as variables", assert => {
-    talisman.createFromString("Hello {name}!").then(view => {
+    talisman.createFromString("Hello {{name}}!").then(view => {
         return view.set({name: delay("World", 500)}).toString();
     }).then(content => {
         assert.equal(content, "Hello World!");
@@ -128,7 +128,7 @@ test("promises as variables", assert => {
 });
 
 test("streams as variables", assert => {
-    talisman.createFromString("Hello {name}!").then(view => {
+    talisman.createFromString("Hello {{name}}!").then(view => {
         return view.set({name: stream("World")}).toString();
     }).then(content => {
         assert.equal(content, "Hello World!");
@@ -137,7 +137,7 @@ test("streams as variables", assert => {
 });
 
 test("promised streams as variables", assert => {
-    talisman.createFromString("Hello {name}!").then(view => {
+    talisman.createFromString("Hello {{name}}!").then(view => {
         return view.set({
             name: delay(stream("World"), 500)
         }).toString();
@@ -151,7 +151,7 @@ test("functions as variables", assert => {
 
     const world = () => "World";
 
-    talisman.createFromString("Hello {name}!").then(view => {
+    talisman.createFromString("Hello {{name}}!").then(view => {
         return view.set({name: world}).toString();
     }).then(content => {
         assert.equal(content, "Hello World!");
@@ -163,7 +163,7 @@ test("functions returning promises as variables", assert => {
 
     const world = () => Promise.resolve("World");
 
-    talisman.createFromString("Hello {name}!").then(view => {
+    talisman.createFromString("Hello {{name}}!").then(view => {
         return view.set({name: world}).toString();
     }).then(content => {
         assert.equal(content, "Hello World!");
@@ -175,7 +175,7 @@ test("functions returning promised streams as variables", assert => {
 
     const world = () => Promise.resolve(stream("World"));
 
-    talisman.createFromString("Hello {name}!").then(view => {
+    talisman.createFromString("Hello {{name}}!").then(view => {
         return view.set({name: world}).toString();
     }).then(content => {
         assert.equal(content, "Hello World!");
@@ -189,7 +189,7 @@ test("functions returning promises returning functions returning streams", asser
         return Promise.resolve(() => stream("World"));
     };
 
-    talisman.createFromString("Hello {name}!").then(view => {
+    talisman.createFromString("Hello {{name}}!").then(view => {
         return view.set({name: world}).toString();
     }).then(content => {
         assert.equal(content, "Hello World!");
@@ -199,7 +199,7 @@ test("functions returning promises returning functions returning streams", asser
 
 test("Wait until a certain promise has resolved before continuing", assert => {
 
-    talisman.createFromString("{test1}, Wait for it... {#delayBlock}{test2}, {test3}{/delayBlock}").then(view => {
+    talisman.createFromString("{{test1}}, Wait for it... {#delayBlock}{{test2}}, {{test3}}{/delayBlock}").then(view => {
         let prePromiseContent = "";
         let fullContent = "";
         let promiseResolved = false;
@@ -222,6 +222,16 @@ test("Wait until a certain promise has resolved before continuing", assert => {
                 assert.equal(fullContent, "Test 1 Done, Wait for it... Test 2 Done, All Tests Done");
                 assert.end();
             });
+    });
+});
+
+test("talking about javascript", assert => {
+    const s = "<code>\nconst f = () => {\n    const foo = \"foo\";\n    return {foo};\n};\n</code>";
+    talisman.createFromString(s).then(view => {
+        return view.toString();
+    }).then(content => {
+        assert.equal(content, s);
+        assert.end();
     });
 });
 
@@ -248,7 +258,7 @@ test("Restore a previously removed block", assert => {
 // Scope and inheritance
 
 test("scoped variables", assert => {
-    talisman.createFromString("{greet} {name}{bang}\n{#excellent}{greet} {name}{bang}{/excellent}").then(view => {
+    talisman.createFromString("{{greet}} {{name}}{{bang}}\n{#excellent}{{greet}} {{name}}{{bang}}{/excellent}").then(view => {
         return view.set({greet: "Hello", name: "Bill"})
             .set({name: "Ted", bang: "!"}, "excellent")
             .toString();
@@ -258,7 +268,7 @@ test("scoped variables", assert => {
     });
 });
 test("Deeplinked variables", assert => {
-    talisman.createFromString("{#profile}<h1>{name}'s Profile</h1>{/profile}<p>Hello, {profile.name}. {request.name} would like to be your friend.</p>").then(view => {
+    talisman.createFromString("{#profile}<h1>{{name}}'s Profile</h1>{/profile}<p>Hello, {{profile.name}}. {{request.name}} would like to be your friend.</p>").then(view => {
         return view
             .set({name: "Steve"}, "profile")
             .set({request: {name: "John"}})
@@ -270,7 +280,7 @@ test("Deeplinked variables", assert => {
 });
 
 test("Deeplinked variable properties", assert => {
-    talisman.createFromString("{#profile}<h1>{name}'s Profile</h1>{/profile}<p>Hello, {profile.name}. You have {profile.name.length} letters in your name.</p>").then(view => {
+    talisman.createFromString("{#profile}<h1>{{name}}'s Profile</h1>{/profile}<p>Hello, {{profile.name}}. You have {{profile.name.length}} letters in your name.</p>").then(view => {
         return view
             .set({name: "Steve"}, "profile")
             .set({request: {name: "John"}})
@@ -282,7 +292,7 @@ test("Deeplinked variable properties", assert => {
 });
 
 test("Deeplinked promised variables", assert => {
-    talisman.createFromString("{#profile}<h1>{name}'s Profile</h1>{/profile}<p>Hello, {profile.name}. {request.name} would like to be your friend.</p>").then(view => {
+    talisman.createFromString("{#profile}<h1>{{name}}'s Profile</h1>{/profile}<p>Hello, {{profile.name}}. {{request.name}} would like to be your friend.</p>").then(view => {
         return view.set(delay({name: "Sarah"}, 500), "profile")
             .set(delay({request: {name: "Steve"}}, 500))
             .toString();
@@ -295,7 +305,7 @@ test("Deeplinked promised variables", assert => {
 // Iteration
 
 test("iteration", assert => {
-    talisman.createFromString("before{#block}{label}{/block}after").then(view => {
+    talisman.createFromString("before{#block}{{label}}{/block}after").then(view => {
         const iterator = [{label: 1}, {label: 2}, {label: 3}];
         return view.setIterator(iterator, "block").toString();
     }).then(content => {
@@ -305,7 +315,7 @@ test("iteration", assert => {
 });
 
 test("iterator row counters", assert => {
-    talisman.createFromString("before{#block}{talismanRowNum}.{label}{/block}after").then(view => {
+    talisman.createFromString("before{#block}{{talismanRowNum}}.{{label}}{/block}after").then(view => {
         const iterator = [{label: "a"}, {label: "b"}, {label: "c"}];
         return view.setIterator(iterator, "block").toString();
     }).then(content => {
@@ -315,7 +325,7 @@ test("iterator row counters", assert => {
 });
 
 test("iteration from object streams", assert => {
-    talisman.createFromString("before{#block}{name}{/block}after").then(view => {
+    talisman.createFromString("before{#block}{{name}}{/block}after").then(view => {
         return view.setIterator(objectStream(), "block").toString();
     }).then(content => {
         assert.equal(content, "beforeBillTedElizabethJoannaRufusafter");
@@ -326,7 +336,7 @@ test("iteration from object streams", assert => {
 // Masks
 
 test("masks", assert => {
-    talisman.createFromString("Hello {name|reverse}!").then(view => {
+    talisman.createFromString("Hello {{name|reverse}}!").then(view => {
         return view.set({name: "dlroW"})
             .addMask("reverse", s => s.split("").reverse().join(""))
             .toString();
@@ -337,7 +347,7 @@ test("masks", assert => {
 });
 
 test("chained masks", assert => {
-    talisman.createFromString("Hello {name|reverse|upper}!").then(view => {
+    talisman.createFromString("Hello {{name|reverse|upper}}!").then(view => {
         return view.set({name: "dlroW"})
             .addMask("reverse", s => s.split("").reverse().join(""))
             .addMask("upper", s => s.toUpperCase())
@@ -349,7 +359,7 @@ test("chained masks", assert => {
 });
 
 test("deeplinked variables with masks", assert => {
-    talisman.createFromString("Hello {profile.name|reverse}!").then(view => {
+    talisman.createFromString("Hello {{profile.name|reverse}}!").then(view => {
         return view.set({profile: {name: "dlroW"}})
             .addMask("reverse", s => s.split("").reverse().join(""))
             .toString();
@@ -360,7 +370,7 @@ test("deeplinked variables with masks", assert => {
 });
 
 test("removing masks", assert => {
-    talisman.createFromString("Hello {name|reverse|upper}!").then(view => {
+    talisman.createFromString("Hello {{name|reverse|upper}}!").then(view => {
         return view.set({name: "dlroW"})
             .addMask("reverse", s => s.split("").reverse().join(""))
             .addMask("upper", s => s.toUpperCase())
@@ -375,7 +385,7 @@ test("removing masks", assert => {
 // Escaping html and commenting
 
 test("tag escaping", assert => {
-    talisman.createFromString("Hello {name} {{name}}!").then(view => {
+    talisman.createFromString("Hello {{name}} {{{name}}}!").then(view => {
         return view.set({name: "<strong>World</strong>"}).toString();
     }).then(content => {
         assert.equal(content, "Hello &lt;strong>World&lt;/strong> <strong>World</strong>!");
@@ -384,7 +394,7 @@ test("tag escaping", assert => {
 });
 
 test("template comments", assert => {
-    talisman.createFromString("Hello {/* This is a comment, and should have been stripped */}{name}!").then(view => {
+    talisman.createFromString("Hello {/* This is a comment, and should have been stripped */}{{name}}!").then(view => {
         return view.set({name: "World"}).toString();
     }).then(content => {
         assert.equal(content, "Hello World!");
@@ -451,7 +461,7 @@ test("composing deep blocks from the filesystem", assert => {
 // Errors
 
 test("Handle malformed tags", assert => {
-    talisman.createFromString("Hello {name}}, Hello {{name}!").then(view => {
+    talisman.createFromString("Hello {{name}}}, Hello {{{name}}!").then(view => {
         return view.set({name: "World"}).toString();
     }).then(content => {
         assert.equal(content, "Hello World}, Hello {World!");
@@ -460,7 +470,7 @@ test("Handle malformed tags", assert => {
 });
 
 test("Handle invalid iterators", assert => {
-    talisman.createFromString("before{#block}{label}{/block}after").then(view => {
+    talisman.createFromString("before{#block}{{label}}{/block}after").then(view => {
         const iterator = 13;
         return view.setIterator(iterator, "block").toString();
     }).then(() => {
@@ -474,7 +484,7 @@ test("Handle invalid iterators", assert => {
 });
 
 test("Handle invalid non-object mode stream as iterator", assert => {
-    talisman.createFromString("before{#block}{label}{/block}after").then(view => {
+    talisman.createFromString("before{#block}{{label}}{/block}after").then(view => {
         const nonObjectStream = new ReadableStream();
         return view.setIterator(nonObjectStream, "block").toString();
     }).then(() => {
@@ -488,7 +498,7 @@ test("Handle invalid non-object mode stream as iterator", assert => {
 });
 
 test("Handle error event in stream variable while rendering as a string", assert => {
-    talisman.createFromString("Testing {test}").then(view => {
+    talisman.createFromString("Testing {{test}}").then(view => {
         return view.set({test: errorStream()}).toString();
     }).catch(error => {
         assert.equal(error instanceof Error, true);
@@ -499,7 +509,7 @@ test("Handle error event in stream variable while rendering as a string", assert
 });
 
 test("Handle error event in stream variable while rendering as a string with a callback", assert => {
-    talisman.createFromString("Testing {test}").then(view => {
+    talisman.createFromString("Testing {{test}}").then(view => {
         return view.set({test: errorStream()}).toString((error, content) => {
             assert.equal(content, undefined);
             assert.equal(error instanceof Error, true);
@@ -510,7 +520,7 @@ test("Handle error event in stream variable while rendering as a string with a c
 });
 
 test("Handle attempting to load a template into a non-existent block", assert => {
-    talisman.createFromString("Loading external resource: {#external}{content}{/external}").then(view => {
+    talisman.createFromString("Loading external resource: {#external}{{content}}{/external}").then(view => {
         const invalidBlock = view.load("sample-3.html", "content", "invalid"); // invalid block is invalid
         return Promise.all([invalidBlock, view]);
     }).then(responses => {
@@ -522,7 +532,7 @@ test("Handle attempting to load a template into a non-existent block", assert =>
 });
 
 test("Handle attempting to set a variable into a non-existent block", assert => {
-    talisman.createFromString("{#validBlock}{content}{/validBlock}").then(view => {
+    talisman.createFromString("{#validBlock}{{content}}{/validBlock}").then(view => {
         const invalidBlock = view.set({content: "test"}, "invalid"); // invalid block is invalid
         return Promise.all([invalidBlock, view]);
     }).then(responses => {
@@ -534,7 +544,7 @@ test("Handle attempting to set a variable into a non-existent block", assert => 
 });
 
 test("Handle attempting to set an iterator on a non-existent block", assert => {
-    talisman.createFromString("{#validBlock}{label}{/validBlock}").then(view => {
+    talisman.createFromString("{#validBlock}{{label}}{/validBlock}").then(view => {
         const iterator = [{label: 1}, {label: 2}, {label: 3}];
         const invalidBlock = view.setIterator(iterator, "invalid"); // invalid block is invalid
         return Promise.all([invalidBlock, view]);
@@ -547,7 +557,7 @@ test("Handle attempting to set an iterator on a non-existent block", assert => {
 });
 
 test("Handle attempting to set a variable into a non-existent block", assert => {
-    talisman.createFromString("{#validBlock}{content}{/validBlock}").then(view => {
+    talisman.createFromString("{#validBlock}{{content}}{/validBlock}").then(view => {
         const invalidBlock = view.set({content: "test"}, "invalid"); // invalid block is invalid
         return Promise.all([invalidBlock, view]);
     }).then(responses => {
@@ -583,7 +593,7 @@ test("Handle attempting to restore a non-existent block", assert => {
 });
 
 test("Handle attempting to addMask on a non-existent block", assert => {
-    talisman.createFromString("{#validBlock}{bleh|reverse}{/validBlock}").then(view => {
+    talisman.createFromString("{#validBlock}{{bleh|reverse}}{/validBlock}").then(view => {
         view.set({bleh: "bleh"});
         const invalidBlock = view.addMask("reverse", s => s.split("").reverse().join(""), "invalid"); // invalid block is invalid
         return Promise.all([invalidBlock, view]);
@@ -596,7 +606,7 @@ test("Handle attempting to addMask on a non-existent block", assert => {
 });
 
 test("Handle attempting to removeMask on a non-existent block", assert => {
-    talisman.createFromString("{#validBlock}{bleh|reverse}{/validBlock}").then(view => {
+    talisman.createFromString("{#validBlock}{{bleh|reverse}}{/validBlock}").then(view => {
         view.set({bleh: "bleh"})
             .addMask("reverse", s => s.split("").reverse().join(""), "validBlock"); // invalid block is invalid
         const invalidBlock = view.removeMask("reverse", "invalid"); // invalid block is invalid
@@ -610,7 +620,7 @@ test("Handle attempting to removeMask on a non-existent block", assert => {
 });
 
 test("Handle attempting to waitUntil on a non-existent block", assert => {
-    talisman.createFromString("{test1}, Wait for it... {#delayBlock}{test2}, {test3}{/delayBlock}").then(view => {
+    talisman.createFromString("{test1}, Wait for it... {#delayBlock}{{test2}}, {{test3}}{/delayBlock}").then(view => {
         const delayPromise = delay("Ok", 500);
         view.set({test1: "Test 1 Done"}).set({test2: "Test 2 Done", test3: "All Tests Done"}, "invalid");
         const invalidBlock = view.waitUntil(delayPromise, "invalid"); // invalid block is invalid
