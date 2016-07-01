@@ -55,6 +55,8 @@ test("Outputting data to a stream", assert => {
     }).then(content => {
         assert.equal(content, "Hello World!");
         assert.end();
+    }).catch(error => {
+        assert.end(error);
     });
 });
 
@@ -65,6 +67,8 @@ test("toString as callback", assert => {
             assert.equal(content, "Hello World!");
             assert.end();
         });
+    }).catch(error => {
+        assert.end(error);
     });
 });
 
@@ -82,6 +86,8 @@ test("Outputting data to a stream", assert => {
             assert.equal(content, "Stream Output: Hello World!");
             assert.end();
         });
+    }).catch(error => {
+        assert.end(error);
     });
 });
 
@@ -93,6 +99,8 @@ test("simple variable replacement", assert => {
     }).then(content => {
         assert.equal(content, "Hello World!");
         assert.end();
+    }).catch(error => {
+        assert.end(error);
     });
 });
 
@@ -102,6 +110,8 @@ test("Number variables", assert => {
     }).then(content => {
         assert.equal(content, "<ul><li>Count: 23</li><li>Amount: 44255.12</li></ul>");
         assert.end();
+    }).catch(error => {
+        assert.end(error);
     });
 });
 
@@ -115,6 +125,8 @@ test("maps as variables", assert => {
     }).then(content => {
         assert.equal(content, "Hello World!");
         assert.end();
+    }).catch(error => {
+        assert.end(error);
     });
 });
 
@@ -124,6 +136,8 @@ test("promises as variables", assert => {
     }).then(content => {
         assert.equal(content, "Hello World!");
         assert.end();
+    }).catch(error => {
+        assert.end(error);
     });
 });
 
@@ -133,6 +147,8 @@ test("streams as variables", assert => {
     }).then(content => {
         assert.equal(content, "Hello World!");
         assert.end();
+    }).catch(error => {
+        assert.end(error);
     });
 });
 
@@ -144,6 +160,8 @@ test("promised streams as variables", assert => {
     }).then(content => {
         assert.equal(content, "Hello World!");
         assert.end();
+    }).catch(error => {
+        assert.end(error);
     });
 });
 
@@ -156,6 +174,8 @@ test("functions as variables", assert => {
     }).then(content => {
         assert.equal(content, "Hello World!");
         assert.end();
+    }).catch(error => {
+        assert.end(error);
     });
 });
 
@@ -168,6 +188,8 @@ test("functions returning promises as variables", assert => {
     }).then(content => {
         assert.equal(content, "Hello World!");
         assert.end();
+    }).catch(error => {
+        assert.end(error);
     });
 });
 
@@ -180,6 +202,8 @@ test("functions returning promised streams as variables", assert => {
     }).then(content => {
         assert.equal(content, "Hello World!");
         assert.end();
+    }).catch(error => {
+        assert.end(error);
     });
 });
 
@@ -194,6 +218,8 @@ test("functions returning promises returning functions returning streams", asser
     }).then(content => {
         assert.equal(content, "Hello World!");
         assert.end();
+    }).catch(error => {
+        assert.end(error);
     });
 });
 
@@ -222,6 +248,8 @@ test("Wait until a certain promise has resolved before continuing", assert => {
                 assert.equal(fullContent, "Test 1 Done, Wait for it... Test 2 Done, All Tests Done");
                 assert.end();
             });
+    }).catch(error => {
+        assert.end(error);
     });
 });
 
@@ -232,6 +260,8 @@ test("talking about javascript", assert => {
     }).then(content => {
         assert.equal(content, s);
         assert.end();
+    }).catch(error => {
+        assert.end(error);
     });
 });
 
@@ -243,6 +273,8 @@ test("Remove a block", assert => {
     }).then(content => {
         assert.equal(content, "Hello  World!");
         assert.end();
+    }).catch(error => {
+        assert.end(error);
     });
 });
 
@@ -252,6 +284,8 @@ test("Restore a previously removed block", assert => {
     }).then(content => {
         assert.equal(content, "Hello ***No really, The Royal Family really are actually Lizards*** World!");
         assert.end();
+    }).catch(error => {
+        assert.end(error);
     });
 });
 
@@ -265,6 +299,8 @@ test("scoped variables", assert => {
     }).then(content => {
         assert.equal(content, "Hello Bill\nHello Ted!");
         assert.end();
+    }).catch(error => {
+        assert.end(error);
     });
 });
 test("Deeplinked variables", assert => {
@@ -276,6 +312,8 @@ test("Deeplinked variables", assert => {
     }).then(content => {
         assert.equal(content, "<h1>Steve's Profile</h1><p>Hello, Steve. John would like to be your friend.</p>");
         assert.end();
+    }).catch(error => {
+        assert.end(error);
     });
 });
 
@@ -288,6 +326,8 @@ test("Deeplinked variable properties", assert => {
     }).then(content => {
         assert.equal(content, "<h1>Steve's Profile</h1><p>Hello, Steve. You have 5 letters in your name.</p>");
         assert.end();
+    }).catch(error => {
+        assert.end(error);
     });
 });
 
@@ -299,6 +339,8 @@ test("Deeplinked promised variables", assert => {
     }).then(content => {
         assert.equal(content, "<h1>Sarah's Profile</h1><p>Hello, Sarah. Steve would like to be your friend.</p>");
         assert.end();
+    }).catch(error => {
+        assert.end(error);
     });
 });
 
@@ -311,6 +353,8 @@ test("iteration", assert => {
     }).then(content => {
         assert.equal(content, "before123after");
         assert.end();
+    }).catch(error => {
+        assert.end(error);
     });
 });
 
@@ -321,6 +365,8 @@ test("iterator row counters", assert => {
     }).then(content => {
         assert.equal(content, "before0.a1.b2.cafter");
         assert.end();
+    }).catch(error => {
+        assert.end(error);
     });
 });
 
@@ -330,6 +376,8 @@ test("iteration from object streams", assert => {
     }).then(content => {
         assert.equal(content, "beforeBillTedElizabethJoannaRufusafter");
         assert.end();
+    }).catch(error => {
+        assert.end(error);
     });
 });
 
@@ -343,6 +391,8 @@ test("masks", assert => {
     }).then(content => {
         assert.equal(content, "Hello World!");
         assert.end();
+    }).catch(error => {
+        assert.end(error);
     });
 });
 
@@ -355,6 +405,8 @@ test("chained masks", assert => {
     }).then(content => {
         assert.equal(content, "Hello WORLD!");
         assert.end();
+    }).catch(error => {
+        assert.end(error);
     });
 });
 
@@ -366,6 +418,8 @@ test("deeplinked variables with masks", assert => {
     }).then(content => {
         assert.equal(content, "Hello World!");
         assert.end();
+    }).catch(error => {
+        assert.end(error);
     });
 });
 
@@ -379,6 +433,8 @@ test("removing masks", assert => {
     }).then(content => {
         assert.equal(content, "Hello World!");
         assert.end();
+    }).catch(error => {
+        assert.end(error);
     });
 });
 
@@ -390,6 +446,8 @@ test("tag escaping", assert => {
     }).then(content => {
         assert.equal(content, "Hello &lt;strong>World&lt;/strong> <strong>World</strong>!");
         assert.end();
+    }).catch(error => {
+        assert.end(error);
     });
 });
 
@@ -399,6 +457,8 @@ test("template comments", assert => {
     }).then(content => {
         assert.equal(content, "Hello World!");
         assert.end();
+    }).catch(error => {
+        assert.end(error);
     });
 });
 
@@ -408,6 +468,8 @@ test("preserving template tags with a CDATA tag", assert => {
     }).then(content => {
         assert.equal(content, "Hello {name}!");
         assert.end();
+    }).catch(error => {
+        assert.end(error);
     });
 });
 
@@ -420,6 +482,8 @@ test("templates from the filesystem", assert => {
     }).then(content => {
         assert.equal(content, "Hello World from the filesystem!\n");
         assert.end();
+    }).catch(error => {
+        assert.end(error);
     });
 });
 
@@ -431,6 +495,8 @@ test("templates from the filesystem with absolute path", assert => {
     }).then(content => {
         assert.equal(content, "Hello World from the filesystem!\n");
         assert.end();
+    }).catch(error => {
+        assert.end(error);
     });
 });
 
@@ -443,6 +509,8 @@ test("composing blocks from the filesystem", assert => {
     }).then(content => {
         assert.equal(content, "Before\nThis is content from another file.\n\n\nInside\n\nAfter\n");
         assert.end();
+    }).catch(error => {
+        assert.end(error);
     });
 });
 
@@ -455,6 +523,8 @@ test("composing deep blocks from the filesystem", assert => {
     }).then(content => {
         assert.equal(content, "Before\n\n\nInside\nThis is content from another file.\n\nAfter\n");
         assert.end();
+    }).catch(error => {
+        assert.end(error);
     });
 });
 
@@ -466,6 +536,8 @@ test("Handle malformed tags", assert => {
     }).then(content => {
         assert.equal(content, "Hello World}, Hello {World!");
         assert.end();
+    }).catch(error => {
+        assert.end(error);
     });
 });
 
@@ -510,12 +582,14 @@ test("Handle error event in stream variable while rendering as a string", assert
 
 test("Handle error event in stream variable while rendering as a string with a callback", assert => {
     talisman.createFromString("Testing {{test}}").then(view => {
-        return view.set({test: errorStream()}).toString((error, content) => {
+        view.set({test: errorStream()}).toString((error, content) => {
             assert.equal(content, undefined);
             assert.equal(error instanceof Error, true);
             assert.equal(error.message, "Oops!");
             assert.end();
         });
+    }).catch(error => {
+        assert.end(error);
     });
 });
 
@@ -528,6 +602,8 @@ test("Handle attempting to load a template into a non-existent block", assert =>
         const correctApi = responses[1];
         assert.deepEqual(returnedApi, correctApi);
         assert.end();
+    }).catch(error => {
+        assert.end(error);
     });
 });
 
@@ -540,6 +616,8 @@ test("Handle attempting to set a variable into a non-existent block", assert => 
         const correctApi = responses[1];
         assert.deepEqual(returnedApi, correctApi);
         assert.end();
+    }).catch(error => {
+        assert.end(error);
     });
 });
 
@@ -553,6 +631,8 @@ test("Handle attempting to set an iterator on a non-existent block", assert => {
         const correctApi = responses[1];
         assert.deepEqual(returnedApi, correctApi);
         assert.end();
+    }).catch(error => {
+        assert.end(error);
     });
 });
 
@@ -565,6 +645,8 @@ test("Handle attempting to set a variable into a non-existent block", assert => 
         const correctApi = responses[1];
         assert.deepEqual(returnedApi, correctApi);
         assert.end();
+    }).catch(error => {
+        assert.end(error);
     });
 });
 
@@ -577,6 +659,8 @@ test("Handle attempting to remove a non-existent block", assert => {
         const correctApi = responses[1];
         assert.deepEqual(returnedApi, correctApi);
         assert.end();
+    }).catch(error => {
+        assert.end(error);
     });
 });
 
@@ -589,6 +673,8 @@ test("Handle attempting to restore a non-existent block", assert => {
         const correctApi = responses[1];
         assert.deepEqual(returnedApi, correctApi);
         assert.end();
+    }).catch(error => {
+        assert.end(error);
     });
 });
 
@@ -602,6 +688,8 @@ test("Handle attempting to addMask on a non-existent block", assert => {
         const correctApi = responses[1];
         assert.deepEqual(returnedApi, correctApi);
         assert.end();
+    }).catch(error => {
+        assert.end(error);
     });
 });
 
@@ -616,6 +704,8 @@ test("Handle attempting to removeMask on a non-existent block", assert => {
         const correctApi = responses[1];
         assert.deepEqual(returnedApi, correctApi);
         assert.end();
+    }).catch(error => {
+        assert.end(error);
     });
 });
 
@@ -630,5 +720,7 @@ test("Handle attempting to waitUntil on a non-existent block", assert => {
         const correctApi = responses[1];
         assert.deepEqual(returnedApi, correctApi);
         assert.end();
+    }).catch(error => {
+        assert.end(error);
     });
 });
