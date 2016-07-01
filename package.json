@@ -47,7 +47,6 @@
     "coveralls": "^2.11.9",
     "eslint": "^2.13.1",
     "istanbul": "^0.4.4",
-    "node-fetch": "^1.5.3",
     "tape": "^4.6.0"
   }
 }

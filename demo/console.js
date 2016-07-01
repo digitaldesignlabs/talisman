@@ -2,7 +2,7 @@
 
 const talisman = require("../lib/talisman");
 const path = require("path");
-const fetch = require("node-fetch");
+const fs = require("fs");
 const ReadableStream = require("stream").Readable;
 
 function delay(ms) {
@@ -29,10 +29,7 @@ talisman.create(path.join(__dirname, "/console.html"))
         });
 
         // Variables can be streams
-        const streamedContent = fetch("https://digitaldesignlabs.com/humans.txt")
-            .then(r => r.body)
-            .catch(() => "Well that didn't work");
-
+        const streamedContent = fs.createReadStream(path.join(__dirname, "../LICENSE"));
         view.set({streamedContent});
 
         // External files can be loaded into variables as new blocks
