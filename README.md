@@ -13,7 +13,7 @@ npm install talismanjs --save
 [Streams are awesome](https://jakearchibald.com/2016/streams-ftw/), and so Talisman is built to be used as a streaming template system. This means Talisman renders templates to a stream, which you can then pipe to a writable stream, like `process.stdout` or `http.ServerResponse`.
 
 ## Why Streaming? ##
-Templating systems will often wait to compute last byte of a page before sendining the first one. This manifests for users as a blank white screen, while they wait for our application to query the database and perform other required IO, before generating HTML for the page.
+Templating systems will often wait to compute last byte of a page before sending the first one. This manifests for users as a blank white screen, while they wait for our application to query the database and perform other required IO, before generating HTML for the page.
 
 By contrast, Talisman sends as much data as it can as soon as it can; so the user gets *something* up on their screen quickly. This improves the perceived performance of your application, and also means their browser can start fetching external resources sooner. This reduces overall page load time, as JavaScript, CSS, and images can be downloaded on the client in parallel with the database work being done on the server.
 
