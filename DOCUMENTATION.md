@@ -67,7 +67,7 @@ view.addMask(name, func, blockName);
 
 #### Parameters ####
 - `name` (string, required) - The name for this mask. Follows the same naming rules as variables.
-- `func` (function) - A function which defines this mask. This function will be called synchronously, and passed the value of the variable it is masking. It should transform that value in some way and return it.
+- `func` (function, required) - A function which defines this mask. This function will be called synchronously, and passed the value of the variable it is masking. It should transform that value in some way and return it.
 - `blockName` (string, optional) - the name of the block where this mask should be defined. If this is the root block, this can be omitted. Otherwise, the name of the block should be specified. Blocks nested inside other blocks may be referenced by delimiting the block names with colons, for example `outer:inner`.
 
 #### Return Value ####
@@ -114,7 +114,7 @@ view.remove(blockName);
 ```
 
 #### Parameters ####
-- `blockName` (string) - the name of a block which should be removed, i.e. not rendered.
+- `blockName` (string, required) - the name of a block which should be removed, i.e. not rendered.
 
 #### Return Value ####
 The Talisman view `object`.
@@ -134,7 +134,7 @@ view.removeMask(name, blockName);
 ```
 
 #### Parameters ####
-- `name` (string) - the name of a mask to remove
+- `name` (string, required) - the name of a mask to remove
 - `blockName` (string, optional) - the name of the block where this mask is defined. If this is the root block, this can be omitted. Otherwise, the name of the block should be specified. Blocks nested inside other blocks may be referenced by delimiting the block names with colons, for example `outer:inner`.
 
 #### Return Value ####
@@ -156,7 +156,7 @@ view.restore(blockName);
 ```
 
 #### Parameters ####
-- `blockName` (string) - the name of a block which has previously been removed, but which should be restored, i.e. should be rendered.
+- `blockName` (string, required) - the name of a block which has previously been removed, but which should be restored, i.e. should be rendered.
 
 #### Return Value ####
 The Talisman view `object`.
@@ -180,7 +180,7 @@ view.set(keyValuePairs, blockName);
 ```
 
 #### Parameters ####
-- `keyValuePairs` (Map or object) - Key-value pairs denoting the variable values to set, where the key denotes the variable name and the value is the value for that variable. This function can currently accept ES2015 `Map` objects, or traditional JavaScript objects. Values can be a `function` (which will be invoked without parameters and the return value used as the value), a `Promise` (which will be resolved and the resolved value used), a node `Buffer` which will be converted to a string and used, a JavaScript `string` which will be used as-is, or a node `stream.Readable` object, which will be piped into the output stream at render time.
+- `keyValuePairs` (Map or object, required) - Key-value pairs denoting the variable values to set, where the key denotes the variable name and the value is the value for that variable. This function can currently accept ES2015 `Map` objects, or traditional JavaScript objects. Values can be a `function` (which will be invoked without parameters and the return value used as the value), a `Promise` (which will be resolved and the resolved value used), a node `Buffer` which will be converted to a string and used, a JavaScript `string` which will be used as-is, or a node `stream.Readable` object, which will be piped into the output stream at render time.
 - `blockName` (string, optional) - the name of the block which contains the variables we are replacing. If this is the root block, this can be omitted. Otherwise, the name of the block should be specified. Blocks nested inside other blocks may be referenced by delimiting the block names with colons, for example `outer:inner`.
 
 #### Return Value ####
@@ -208,7 +208,7 @@ view.setIterator(iterable, blockName);
 ```
 
 #### Parameters ####
-- `iterable` (array or Stream) - An iterator producing key-value pairs on each iteration, suitable for use with `.set()` (see above). Current iterables supported are JavaScript `array` objects, and Node `stream.Readable` objects, set to `objectMode`.
+- `iterable` (array or Stream, required) - An iterator producing key-value pairs on each iteration, suitable for use with `.set()` (see above). Current iterables supported are JavaScript `array` objects, and Node `stream.Readable` objects, set to `objectMode`.
 - `blockName` (string, required) - the name of the block which should be iterated. Blocks nested inside other blocks may be referenced by delimiting the block names with colons, for example `outer:inner`;
 
 #### Return Value ####
@@ -280,7 +280,7 @@ view.waitUntil(promise, blockName);
 ```
 
 #### Parameters ####
-- `promise` (Promise) - A promise which must be resolved before we proceed with rendering this block
+- `promise` (Promise, required) - A promise which must be resolved before we proceed with rendering this block
 - `blockName` (string, optional) - the name of the block which should not be rendered until the promise is resolved. If this is the root block, this can be omitted (but that rather defeats the point?) Otherwise, the name of the block should be specified. Blocks nested inside other blocks may be referenced by delimiting the block names with colons, for example `outer:inner`.
 
 #### Return Value ####
