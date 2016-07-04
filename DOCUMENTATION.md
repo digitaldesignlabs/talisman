@@ -1,25 +1,103 @@
 # Talisman API Documentation #
 The API for Talisman is quite small, and we hope the template language syntax is easy to pick up. This document defines the API for creating Talisman view objects from files and strings, and for working with Talisman view objects once created.
 
-## View Creation API ##
-### `setTemplatePath()` ###
-#### Syntax ####
-```js
-talisman.setTemplatePath(pathName);
+## Contents ##
+1. [Template File Syntax](#template-syntax)
+    - [Variables](#variables)
+    - [Blocks](#blocks)
+    - [Comments](#comments)
+    - [Character Data](#character-data)
+    - [Masks](#masks)
+2. [View Creation API](#view-creation-api)
+    - [create](#create)
+    - [createFromString](#createfromstring)
+    - [setTemplatePath](#settemplatepath)
+3. [View API](#view-api)
+    - [addMask](#addmask)
+    - [load](#load)
+    - [remove](#remove)
+    - [removeMask](#removemask)
+    - [restore](#restore)
+    - [set](#set)
+    - [setIterator](#setiterator)
+    - [toStream](#tostream)
+    - [toString](#tostring)
+    - [waitUntil](#waituntil)
+
+## Template Syntax ##
+### Variables ###
+Variables are enclosed in double braces, with the name of the variable between the braces. A variable name must be at least two characters long, and may only use the characters `a-z`, `A-Z`, `0-9`, `-`, and `_`. A variable name must begin with a letter, and end with a letter or a number.
+#### Example ####
+```html
+<!-- Valid Variables -->
+{{name}}
+{{first-name}}
+{{emailAddress}}
+{{emailAddress_2}}
+
+<!-- Invalid Variables -->
+{{a}}
+{{-a}}
+{{a-}}
+{{9a}}
 ```
 
-#### Parameters ####
-- `pathName` (string, required) - the path to a directory where Talisman should look for template files.
+**Unescaped Variables** are enclosed in triple braces, with the name of the variable between the braces. Unescaped variables follow the same naming rules as variables, but are not processed through an escape function before rendering. For example: `{{{name}}}`.
+--------------------------------------------------------------
 
-#### Return Value ####
-`undefined`
+### Blocks ###
+**Blocks** are sections of template text, which can be used to define scope, iterators, or conditionals. The start of a block is denoted an opening curly brace, followed by an octothorpe/hash/pound symbol, followed by the name of the block, followed by a closing brace. For example: `{#my-block}`. The end of a block is denoted by an opening curly brace, followed by a forward slash, followed by the name of the block, followed by a closing brace. For example: `{/my-block}`. Blocks follow the same naming rules as variables. Blocks may be nested, but they may not overlap.
 
 #### Example ####
-```js
-talisman.setTemplatePath("/home/www/templates");
+```html
+<ol>
+    {#contacts}
+    <li>{{name}} (<a href="mailto:{{emailAddress}}">{{emailAddress}}</a></li>
+    {/contacts}
+</ol>
+
 ```
 --------------------------------------------------------------
 
+### Comments ###
+Comments are notes included within the template text which should not be rendered. The syntax is based on the C-style comment syntax. A comment begins with an opening curly brace, followed by a forward slash, followed by an asterisk. A comment finishes with an asterisk, followed by a forward slash, followed by a closing curly brace. Any text between these delimiters is not rendered. Comments may not nest or overlap.
+
+#### Example ####
+```html
+{/* this comment will not be included in the final render */}
+{#contact-list}
+    <ol>
+        {#contact}
+        <li>{{name}} (<a href="mailto:{{emailAddress}}">{{emailAddress}}</a></li>
+        {/contact}
+    </ol>
+{/contact-list}
+```
+--------------------------------------------------------------
+
+### Character Data ###
+Character Data is a section of text which should not be interpreted by Talisman and should just be rendered as-is.  This is mostly useful when persuading Talisman to talk about itself. Character data is noted by enclosing the text CDATA delimiters. The opening delimiter consists of two opening curly braces, followed by the string "CDATA" in caps, followed by an opening square bracket. The closing delimiter consists of a closing square bracket, followed by two closing curly braces.
+
+#### Example ####
+```html
+The variable named {{CDATA[{{pageTitle}}]}} has the value {{pageTitle}}.
+```
+
+--------------------------------------------------------------
+### Masks ###
+Masks are small functions which can be used to transform the value of a variable before it is rendered. The list of masks which should be applied is specified inline with the relevant variable. Masks are delimited from the variable itself by a pipe character. For example: `{{name|uppercase}}`. Masks may also be chained, where the output of one mask is fed into the next mask.
+
+#### Example ####
+```html
+<ol>
+    {#item}
+    <li>{{name|toUpperCase}}: {{price|numberFormat|addCurrencySymbol}}</li>
+    {/item}
+</ol>
+```
+
+--------------------------------------------------------------
+## View Creation API ##
 ### `create()` ###
 #### Syntax ####
 ```js
@@ -55,6 +133,23 @@ A `Promise` for the Talisman view `object`.
 talisman.createFromString("Hello {{name}}!").then(view => {
     return view.set({name: "World"}).toStream();
 });
+```
+--------------------------------------------------------------
+### `setTemplatePath()` ###
+#### Syntax ####
+```js
+talisman.setTemplatePath(pathName);
+```
+
+#### Parameters ####
+- `pathName` (string, required) - the path to a directory where Talisman should look for template files.
+
+#### Return Value ####
+`undefined`
+
+#### Example ####
+```js
+talisman.setTemplatePath("/home/www/templates");
 ```
 --------------------------------------------------------------
 
@@ -299,17 +394,3 @@ template.create("main.html").then(view => {
     return view.toStream();
 });
 ```
---------------------------------------------------------------
-
-## Template Syntax ##
-**Variables** are enclosed in double braces, with the name of the variable between the braces. A variable name must be at least two characters long, and may only use the characters `a-z`, `A-Z`, `0-9`, `-`, and `_`. A variable name must begin with a letter. For example: `{{name}}`.
-
-**Unescaped Variables** are enclosed in triple braces, with the name of the variable between the braces. Unescaped variables follow the same naming rules as variables, but are not processed through an escape function before rendering. For example: `{{{name}}}`.
-
-**Blocks** are sections of template text, which can be used to define scope, iterators, or conditionals. The start of a block is denoted an opening curly brace, followed by an octothorpe/hash/pound symbol, followed by the name of the block, followed by a closing brace. For example: `{#my-block}`. The end of a block is denoted by an opening curly brace, followed by a forward slash, followed by the name of the block, followed by a closing brace. For example: `{/my-block}`. Blocks follow the same naming rules as variables. Blocks may be nested, but they may not overlap.
-
-**Comments** are notes included within the tamplte text which should not be rendered. The syntax is based on the C-style comment syntax. A comment begins with an opening curly brace, followed by a forward slash, followed by an asterisk. A comment finishes with an asterisk, followed by a forward slash, followed by a closing curly brace. Any text between these delimiters is not rendered. For example: `{/* This is my comment */}`. Comments may not nest or overlap.
-
-**Character Data** is a section of text which should not be interpreted by Talisman and should just be rendered as-is.  This is mostly useful when persuading Talisman to talk about itself. Character data is noted by enclosing the text CDATA delimiters. The opening delimiter consists of two opening curly braces, followed by the string "CDATA" in caps, followed by an opening square bracket. The closing delimiter consists of a closing square bracket, followed by two closing curly braces. For example: `{{CDATA[This variable will be sent without processing: {{var}}.]}}`.
-
-**Masks** are small functions which can be used to transform the value of a variable before it is rendered. The list of masks which should be applied is specified inline with the relevant variable. Masks are delimited from the variable itself by a pipe character. For example: `{{name|uppercase}}`. Masks may also be chained, where the output of one mask is fed into the next mask. For example: `{{price|numberFormat|addCurrencySymbol}}`.
