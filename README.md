@@ -9,16 +9,19 @@ Talisman is a logicless streaming templating system and language for Node.js, cr
 npm install talismanjs --save
 ```
 
-## Streams FTW! ##
-[Streams are awesome](https://jakearchibald.com/2016/streams-ftw/), and so Talisman is built to be used as a streaming template system. This means you render Talisman templates to a stream, which you can then pipe to a writable stream, like `process.stdout` or `http.ServerResponse`.
+## Streams FTW ##
+[Streams are awesome](https://jakearchibald.com/2016/streams-ftw/), and so Talisman is built to be used as a streaming template system. This means Talisman renders templates to a stream, which you can then pipe to a writable stream, like `process.stdout` or `http.ServerResponse`.
 
-If this can't work for your project, then you can call `.toString()` instead, which will returns a `Promise` for a string you can output the old-fashioned way.
+## Why Streaming? ##
+Templating systems will often wait to compute last byte of a page before sendining the first one. This manifests for users as a blank white screen, while they wait for our application to query the database and perform other required IO, before generating HTML for the page.
 
-## Usage ##
-Talisman uses a very simple syntax, based around two key concepts: **blocks** and **variables**.
+By contrast, Talisman sends as much data as it can as soon as it can; so the user gets *something* up on their screen quickly. This improves the perceived performance of your application, and also means their browser can start fetching external resources sooner. This reduces overall page load time, as JavaScript, CSS, and images can be downloaded on the client in parallel with the database work being done on the server.
+
+## Syntax ##
+Talisman uses a simple syntax, based around two concepts: **blocks** and **variables**.
 
 #### Variables ####
-Talisman allows you to define variable placeholders which will be later populated with data. They are enclosed by double curly braces. Variables can be strings, Buffers, streams, or Promises for any of these. If a function is set as a variable value, its return value will be used.
+Talisman allows you to define variable placeholders which will be later populated with data. They are enclosed by `{{double}} {{curly}} {{braces}}`. Variables can be strings, streams, Buffers, or Promises for any of these.
 
 ```js
 // This will output:
@@ -30,7 +33,7 @@ talisman.createFromString("Hello {{name}}!").then(view => {
 });
 ```
 
-Variables are automatically escaped before they are displayed. You can request Talisman does not do this by using a triple-brace to define the variable placeholder, e.g. ```{{{varName}}}``` would not be escaped.
+Variables are automatically HTML escaped before they are displayed. You can request a variable be displayed raw by using a triple-brace instead of a double-brace, e.g. ```{{{varName}}}```.
 
 ```js
 // This will output:
@@ -44,7 +47,7 @@ talisman.createFromString("Your name is {{{name}}}.\nThe markup was {{name}}.").
 ````
 
 #### Blocks ####
-A block defines a chunk of text within the template. Blocks can used as loops (by assigning iterators to them); as ifs (by removing them when some condition is met) or simply as a way of defining a scope.  A block is inherently none of these; its behaviour depends entirely on how you treat it. Like HTML, blocks may nest, but may not overlap.
+A block defines a section of template text. Blocks can used as loops (by assigning iterators to them); as condtionals (by removing them when some condition is met) or simply as a way of defining a scope.  A block is inherently none of these; its behaviour depends on how you treat it. Like HTML, blocks may nest, but may not overlap.
 
 ```js
 // This will output:
@@ -85,7 +88,7 @@ There are two other markers supported, though you are unlikely to need to use th
 - ```{{CDATA[    ]}}``` defines a block of non-template text. Anything between the square brackets will be ignored by Talisman, and rendered as-is.
 
 #### Masks ####
-Variables can have masks applied to them. These are functions which transform the content in some way during rendering.
+Variables can have masks applied to them. Masks are small synchronous functions which transform the content in some way during rendering.
 
 ```js
 // This will output:
@@ -118,13 +121,16 @@ talisman.createFromString(template).then(view => {
 Masks may also be chained, e.g. ```{{name|parseAsMarkdown|lowercase}}```
 
 #### Loading templates from files ####
-Usually, you would not load templates from JavaScript strings, but from the filesystem.
+In the examples so far, we have used `createFromString()`, but usually you would load templates files from disk.
+
 ```js
 talisman.create("template.html").then(view => {
    view.toStream().pipe(process.stdout);
 });
 ```
-You can also load partial content from files.
+
+You can also load templates into variables on another templates.
+
 ```html
 <!doctype html>
 <html>
