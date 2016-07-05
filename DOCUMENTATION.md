@@ -342,7 +342,7 @@ A `stream.Readable` object.
 template.create("main.html").then(view => {
     return view.toStream();
 }).then(stream => {
-    s.pipe(process.stdout);
+    stream.pipe(process.stdout);
 });
 ```
 --------------------------------------------------------------
