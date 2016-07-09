@@ -41,8 +41,9 @@ Variables are enclosed in double braces, with the name of the variable between t
 {{a-}}
 {{9a}}
 ```
+#### Unescaped Variables####
+Unescaped Variables are enclosed in triple braces, with the name of the variable between the braces. Unescaped variables follow the same naming rules as variables, but are not processed through an escape function before rendering. For example: `{{{name}}}`.
 
-**Unescaped Variables** are enclosed in triple braces, with the name of the variable between the braces. Unescaped variables follow the same naming rules as variables, but are not processed through an escape function before rendering. For example: `{{{name}}}`.
 --------------------------------------------------------------
 
 ### Blocks ###
@@ -341,7 +342,7 @@ A `stream.Readable` object.
 template.create("main.html").then(view => {
     return view.toStream();
 }).then(stream => {
-    s.pipe(process.stdout);
+    stream.pipe(process.stdout);
 });
 ```
 --------------------------------------------------------------
