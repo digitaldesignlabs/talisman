@@ -1,5 +1,6 @@
 [![Travis CI](https://travis-ci.org/digitaldesignlabs/talisman.svg)](https://travis-ci.org/digitaldesignlabs/talisman)
 [![Coverage Status](https://coveralls.io/repos/github/digitaldesignlabs/talisman/badge.svg)](https://coveralls.io/github/digitaldesignlabs/talisman)
+[![npm version](https://badge.fury.io/js/talismanjs.svg)](https://badge.fury.io/js/talismanjs)
 
 # Talisman #
 Talisman is a logicless streaming templating system and language for Node.js, created by Digital Design Labs.
