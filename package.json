@@ -41,7 +41,7 @@
     "test-travis": "node_modules/istanbul/lib/cli.js cover tests"
   },
   "dependencies": {
-    "html-escape": "^2.0.0"
+    "escape-html": "^1.0.3"
   },
   "devDependencies": {
     "coveralls": "^2.11.9",

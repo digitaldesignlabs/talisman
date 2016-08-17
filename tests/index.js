@@ -444,7 +444,7 @@ test("tag escaping", assert => {
     talisman.createFromString("Hello {{name}} {{{name}}}!").then(view => {
         return view.set({name: "<strong>World</strong>"}).toString();
     }).then(content => {
-        assert.equal(content, "Hello &lt;strong>World&lt;/strong> <strong>World</strong>!");
+        assert.equal(content, "Hello &lt;strong&gt;World&lt;/strong&gt; <strong>World</strong>!");
         assert.end();
     }).catch(error => {
         assert.end(error);
