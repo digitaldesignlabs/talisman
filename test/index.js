@@ -303,6 +303,7 @@ test("scoped variables", assert => {
         assert.end(error);
     });
 });
+
 test("Deeplinked variables", assert => {
     talisman.createFromString("{#profile}<h1>{{name}}'s Profile</h1>{/profile}<p>Hello, {{profile.name}}. {{request.name}} would like to be your friend.</p>").then(view => {
         return view

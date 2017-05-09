@@ -44,9 +44,9 @@
     "escape-html": "^1.0.3"
   },
   "devDependencies": {
-    "coveralls": "^2.11.9",
-    "eslint": "^3.2.2",
-    "istanbul": "^0.4.4",
-    "tape": "^4.6.0"
+    "coveralls": "^2.13.1",
+    "eslint": "^3.19.0",
+    "istanbul": "^0.4.5",
+    "tape": "^4.6.3"
   }
 }
