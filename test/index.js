@@ -698,7 +698,7 @@ test("Handle attempting to addMask on a non-existent block", assert => {
 test("Handle attempting to removeMask on a non-existent block", assert => {
     talisman.createFromString("{#validBlock}{{bleh|reverse}}{/validBlock}").then(view => {
         view.set({bleh: "bleh"})
-            .addMask("reverse", s => s.split("").reverse().join(""), "validBlock"); // invalid block is invalid
+            .addMask("reverse", s => s.split("").reverse().join(""), "validBlock");
         const invalidBlock = view.removeMask("reverse", "invalid"); // invalid block is invalid
         return Promise.all([invalidBlock, view]);
     }).then(responses => {
