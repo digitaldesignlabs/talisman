@@ -36,9 +36,10 @@
   ],
   "scripts": {
     "demo": "node demo --",
-    "pretest": "node_modules/eslint/bin/eslint.js lib/*.js tests/*.js",
-    "test": "node tests",
-    "test-travis": "node_modules/istanbul/lib/cli.js cover tests"
+    "lint": "node_modules/.bin/eslint lib test",
+    "pretest": "npm run lint",
+    "test": "node_modules/.bin/tape test",
+    "test-travis": "node_modules/.bin/istanbul cover node_modules/.bin/tape test"
   },
   "dependencies": {
     "escape-html": "^1.0.3"
