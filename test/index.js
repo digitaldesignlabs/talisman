@@ -596,6 +596,7 @@ test("Handle error event in stream variable while rendering as a string with a c
 
 test("Handle attempting to load a template into a non-existent block", assert => {
     talisman.createFromString("Loading external resource: {#external}{{content}}{/external}").then(view => {
+        talisman.setTemplatePath(__dirname);
         const invalidBlock = view.load("sample-3.html", "content", "invalid"); // invalid block is invalid
         return Promise.all([invalidBlock, view]);
     }).then(responses => {
