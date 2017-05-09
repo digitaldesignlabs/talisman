@@ -39,7 +39,7 @@
     "lint": "node_modules/.bin/eslint lib test",
     "pretest": "npm run lint",
     "test": "node_modules/.bin/tape test",
-    "test-travis": "node_modules/.bin/istanbul cover node_modules/.bin/tape test"
+    "test:ci": "node_modules/.bin/istanbul cover node_modules/.bin/tape test"
   },
   "dependencies": {
     "escape-html": "^1.0.3"
