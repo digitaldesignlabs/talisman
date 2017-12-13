@@ -102,7 +102,7 @@ Masks are small functions which can be used to transform the value of a variable
 ### `create()` ###
 #### Syntax ####
 ```js
-talisman.create(fileName);
+await talisman.create(fileName);
 ```
 
 #### Parameters ####
@@ -113,14 +113,15 @@ A `Promise` for the Talisman view `object`.
 
 #### Example ####
 ```js
-talisman.create("main.html").then(view => view.toStream());
+const view = await talisman.create("main.html");
+return view.toStream();
 ```
 --------------------------------------------------------------
 
 ### `createFromString()` ###
 #### Syntax ####
 ```js
-talisman.createFromString(templateString);
+await talisman.createFromString(templateString);
 ```
 
 #### Parameters ####
@@ -131,9 +132,8 @@ A `Promise` for the Talisman view `object`.
 
 #### Example ####
 ```js
-talisman.createFromString("Hello {{name}}!").then(view => {
-    return view.set({name: "World"}).toStream();
-});
+const view = await talisman.createFromString("Hello {{name}}!");
+return view.set({name: "World"}).toStream();
 ```
 --------------------------------------------------------------
 ### `setTemplatePath()` ###
@@ -174,17 +174,16 @@ Talisman scoping rules allow child blocks to see masks from their parent blocks,
 
 #### Example ####
 ```js
-template.create("main.html").then(view => {
-    view.addMask("uppercase", s => s.toUpperCase());
-    return view.toStream();
-});
+const view = await talisman.create("main.html");
+view.addMask("uppercase", s => s.toUpperCase());
+return view.toStream();
 ```
 --------------------------------------------------------------
 
 ### `load()` ###
 #### Syntax ####
 ```js
-view.load(fileName, variableName, blockName);
+await view.load(fileName, variableName, blockName);
 ```
 
 #### Parameters ####
@@ -197,9 +196,9 @@ The Talisman view `object`.
 
 #### Example ####
 ```js
-template.create("main.html").then(view => {
-    return view.load("child.html", "content").toStream();
-});
+const view = await talisman.create("main.html");
+await view.load("child.html", "content");
+return view.toStream();
 ```
 --------------------------------------------------------------
 
@@ -217,9 +216,8 @@ The Talisman view `object`.
 
 #### Example ####
 ```js
-template.create("main.html").then(view => {
-    return view.remove("childBlock").toStream();
-});
+const view = await talisman.create("main.html");
+return view.remove("childBlock").toStream();
 ```
 --------------------------------------------------------------
 
@@ -238,10 +236,9 @@ The Talisman view `object`.
 
 #### Example ####
 ```js
-template.create("main.html").then(view => {
-    view.addMask("uppercase", s => s.toUpperCase());
-    return view.removeMask("uppercase").toStream();
-});
+const view = talisman.create("main.html");
+view.addMask("uppercase", s => s.toUpperCase());
+return view.removeMask("uppercase").toStream();
 ```
 --------------------------------------------------------------
 
@@ -259,13 +256,12 @@ The Talisman view `object`.
 
 #### Example ####
 ```js
-template.create("main.html").then(view => {
-    view.remove("childBlock");
-    if (shouldRestoreBlock);
-        view.restore("childBlock");
-    }
-    return view.toStream();
-});
+const view = await talisman.create("main.html");
+view.remove("childBlock");
+if (shouldRestoreBlock);
+    view.restore("childBlock");
+}
+return view.toStream();
 ```
 --------------------------------------------------------------
 
@@ -287,13 +283,12 @@ Talisman scoping rules allow child blocks to see variables from their parent blo
 
 #### Example ####
 ```js
-template.create("main.html").then(view => {
-    view.set({
-        pageTitle: "Welcome to my Site",
-        inlineCSS: fs.createReadStream("../public/inline.css")
-    });
-    return view.toStream();
+const view = await talisman.create("main.html");
+view.set({
+    pageTitle: "Welcome to my Site",
+    inlineCSS: fs.createReadStream("../public/inline.css")
 });
+return view.toStream();
 ```
 --------------------------------------------------------------
 
@@ -312,16 +307,15 @@ The Talisman view `object`.
 
 #### Example ####
 ```js
-template.create("main.html").then(view => {
-    view.setIterator([
-        {name: "Bill"},
-        {name: "Ted"},
-        {name: "Elizabeth"},
-        {name: "Joanna"},
-        {name: "Rufus"}
-    ], "nonBogusPeople");
-    return view.toStream();
-});
+const view = await talisman.create("main.html");
+view.setIterator([
+    {name: "Bill"},
+    {name: "Ted"},
+    {name: "Elizabeth"},
+    {name: "Joanna"},
+    {name: "Rufus"}
+], "nonBogusPeople");
+return view.toStream();
 ```
 --------------------------------------------------------------
 
@@ -339,11 +333,9 @@ A `stream.Readable` object.
 
 #### Example ####
 ```js
-template.create("main.html").then(view => {
-    return view.toStream();
-}).then(stream => {
-    stream.pipe(process.stdout);
-});
+const view = await talisman.create("main.html");
+const stream = view.toStream();
+stream.pipe(process.stdout);
 ```
 --------------------------------------------------------------
 
@@ -361,11 +353,9 @@ A `Promise` object.
 
 #### Example ####
 ```js
-template.create("main.html").then(view => {
-    return view.toString();
-}).then(content => {
-    res.status(200).send(content);
-});
+const view = await talisman.create("main.html");
+const content = view.toString();
+res.status(200).send(content);
 ```
 --------------------------------------------------------------
 
@@ -384,14 +374,15 @@ The Talisman view `object`.
 
 #### Example ####
 ```js
-template.create("main.html").then(view => {
-    const data = loadDataPromise();
-    data.then(rows => {
-        view.setIterator(rows, "list:row").remove("nolist");
-    }).catch(error => {
-        view.remove("list").set({message: error.message}, "nolist");
-    });
-    view.waitUntil(data);
-    return view.toStream();
+const view = await talisman.create("main.html");
+const data = loadDataPromise();
+
+data.then(rows => {
+    view.setIterator(rows, "list:row").remove("nolist");
+}).catch(error => {
+    view.remove("list").set({message: error.message}, "nolist");
 });
+
+view.waitUntil(data);
+return view.toStream();
 ```

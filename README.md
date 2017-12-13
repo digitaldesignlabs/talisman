@@ -27,11 +27,8 @@ Talisman allows you to define variable placeholders which will be later populate
 ```js
 // This will output:
 // Hello World!
-talisman.createFromString("Hello {{name}}!").then(view => {
-    view.set({name: "World"})
-        .toStream()
-        .pipe(process.stdout);
-});
+const view = await talisman.createFromString("Hello {{name}}!");
+view.set({name: "World"}).toStream().pipe(process.stdout);
 ```
 
 Variables are automatically HTML escaped before they are displayed. You can request a variable be displayed raw by using a triple-brace instead of a double-brace, e.g. ```{{{varName}}}```.
@@ -40,11 +37,8 @@ Variables are automatically HTML escaped before they are displayed. You can requ
 // This will output:
 // Your name is <strong>World</strong>.
 // The markup was &lt;strong>World&lt;/strong>.
-talisman.createFromString("Your name is {{{name}}}.\nThe markup was {{name}}.").then(view => {
-    view.set({name: "<strong>World</strong>"})
-        .toStream()
-        .pipe(process.stdout);
-});
+const view = await talisman.createFromString("Your name is {{{name}}}.\nThe markup was {{name}}.");
+view.set({name: "<strong>World</strong>"}).toStream().pipe(process.stdout);
 ````
 
 #### Blocks ####
@@ -61,7 +55,7 @@ A block defines a section of template text. Blocks can used as loops (by assigni
 // </ul>
 const template = "<h1>Shopping List</h1>\n<ul>\n"
     + "{#row}<li>{{item}}</li>\n{/row}"
-    + "{#norows}<li>I'm afraid we're fresh out of waldorfs...</li>\n{/norows}"
+    + "{#norows}<li>I think we're just out of waldorfs...</li>\n{/norows}"
     + "</ul>";
 
 const data = [
@@ -71,16 +65,15 @@ const data = [
     {item: "Grapes"}
 ];
 
-talisman.createFromString(template).then(view => {
+const view = await talisman.createFromString(template);
 
-    if (data.length > 0) {
-        view.remove("norows").setIterator(data, "row");
-    } else {
-        view.remove("row");
-    }
+if (data.length > 0) {
+    view.remove("norows").setIterator(data, "row");
+} else {
+    view.remove("row");
+}
 
-    view.toStream().pipe(process.stdout);
-});
+view.toStream().pipe(process.stdout);
 ```
 
 #### Other Markers ####
@@ -111,12 +104,9 @@ const data = [
     {item: "Grapes", price: .75}
 ];
 
-talisman.createFromString(template).then(view => {
-    view.addMask("format", n => "$" + n.toFixed(2))
-        .setIterator(data, "row")
-        .toStream()
-        .pipe(process.stdout);
-});
+const view = await talisman.createFromString(template);
+view.addMask("format", n => "$" + n.toFixed(2)).setIterator(data, "row");
+view.toStream().pipe(process.stdout);
 ```
 
 Masks may also be chained, e.g. ```{{name|parseAsMarkdown|lowercase}}```
@@ -125,9 +115,8 @@ Masks may also be chained, e.g. ```{{name|parseAsMarkdown|lowercase}}```
 In the examples so far, we have used `createFromString()`, but usually you would load templates files from disk.
 
 ```js
-talisman.create("template.html").then(view => {
-   view.toStream().pipe(process.stdout);
-});
+const view = await talisman.create("template.html");
+view.toStream().pipe(process.stdout);
 ```
 
 You can also load templates into variables on another templates.
@@ -147,17 +136,17 @@ You can also load templates into variables on another templates.
 {{bodyContent|makeParagraphs}}
 ```
 ```js
-talisman.create("main.html").then(view => {
-    // Second argument tells talisman which variable this content replaces
-    return view.load("article.html", "content");
-}).then(view => {
-    view.set({pageTitle: "Talisman is awesome!"})
-        .set({date: article.date, bodyContent: article.body}, "content")
-        .addMask("dateFormat", dt => new Date(dt).toISOString())
-        .addMask("makeParagraphs", text => "<p>" + text.replace(/\n/g, "</p>\n<p>") + "</p>\n")
-        .toStream()
-        .pipe(process.stdout);
-});
+const view = await talisman.create("main.html");
+
+// Second argument tells talisman which variable this content replaces
+await view.load("article.html", "content");
+
+view.set({pageTitle: "Talisman is awesome!"})
+    .set({date: article.date, bodyContent: article.body}, "content")
+    .addMask("dateFormat", dt => new Date(dt).toISOString())
+    .addMask("makeParagraphs", text => "<p>" + text.replace(/\n/g, "</p>\n<p>") + "</p>\n")
+    .toStream()
+    .pipe(process.stdout);
 ```
 This would render:
 ```html
@@ -175,32 +164,18 @@ This would render:
 </html>
 ```
 
-## Minification ##
-Minification is awesome. You can minify content from Talisman by piping the content through a transform stream.
-
-```js
-const talisman = require("talismanjs");
-const Minifier = require("minify-html-stream");
-
-talisman.create("main.html").then(view => {
-    view.toStream().pipe(new Minifier()).pipe(process.stdout);
-});
-```
-
-The `minify-html-stream` project currently is basic and very cautious. [You can make it better](https://github.com/digitaldesignlabs/minify-html-stream).
-
 ## Simple Demos ##
 ```bash
 git clone https://github.com/digitaldesignlabs/talisman.git
 cd talisman
 npm i
-npm run-script demo console
+npm run demo console
 ```
 
 There is also a browser-based demo
 
 ```bash
-npm run-script demo browser
+npm run demo browser
 ```
 
 ## License ##
